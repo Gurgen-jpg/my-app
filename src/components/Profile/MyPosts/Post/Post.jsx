@@ -4,10 +4,10 @@ import React from "react";
 function Post(props) {
     return (
         <div className={s.item}>
-            <img src={'http://archilab.online/images/1/123.jpg'}/>
+            <img src={'http://archilab.online/images/1/123.jpg'} alt={'avatarka'}/>
             {props.message}
             <div>
-                <span>Like</span>
+                <span>Like {props.likeCount}</span>
             </div>
         </div>
 
