@@ -1,11 +1,17 @@
 .nav {
     grid-area: n;
     background-color: darkgreen;
+    padding: 8px;
+}
+.item {
+    text-decoration: none;
+
 }
 
 .item {
     color: white;
 }
-.item.active {
+.activeLink {
     color: orange;
+    text-decoration: none;
 }
