@@ -1,6 +1,8 @@
 import s from "./Post.module.css";
 import React from "react";
 
+
+
 function Post(props) {
     return (
         <div className={s.item}>
