@@ -3,7 +3,13 @@ import React from "react";
 
 
 
-function Post(props) {
+
+type PostPropsType = {
+    message: string,
+    likeCount: number;
+}
+
+function Post(props: PostPropsType) {
     return (
         <div className={s.item}>
             <img src={'http://archilab.online/images/1/123.jpg'} alt={'avatarka'}/>
