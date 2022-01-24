@@ -2,13 +2,14 @@ import s from "./MyPosts.module.css";
 import React from "react";
 import Post from "./Post/Post";
 
-function MyPosts() {
-    let postsData = [
-        {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
-        {id: 2, message: '"Hi, how are you?"', likesCount: 20}
-    ]
+type MyPostsPropsType = {
+    posts: Array<any>
+}
+
+function MyPosts(props: MyPostsPropsType) {
+
     let myPostsItem =
-        postsData.map(post => <Post message={postsData.message} likeCount={postsData.likesCount}/>)
+        props.posts.map(p => <Post message={p.message} likeCount={p.likesCount}/>)
 
     return (
 
