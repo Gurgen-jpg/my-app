@@ -10,24 +10,26 @@ import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 
-let postsData = [
-    {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
-    {id: 2, message: '"Hi, how are you?"', likesCount: 20}
-]
-let dialogsData = [
-    {id: 1, name: 'Gurgen'},
-    {id: 2, name: 'Katiy'},
-    {id: 3, name: 'Artem'},
-    {id: 4, name: 'Kirill'}
-]
-let messageData = [
-    {id: 1, message: 'How is your IT'},
-    {id: 2, message: 'Yooo'},
-    {id: 3, message: 'Hello man'},
-    {id: 4, message: 'Hey!'}
-]
+type postsDataType = {
+    id: number,
+    message: string,
+    likesCount: number
+}
+type dialogsDataType = {
+    id: number,
+    name: string
+}
+type messageDataType = {
+    id: number,
+    message: string
+}
+type AppPropsType = {
+    posts:Array<postsDataType>,
+    message:Array<messageDataType>,
+    dialog:Array<dialogsDataType>
+}
 
-const App = () => {
+const App = (props: any) => {
 
     return (
         <BrowserRouter>
@@ -36,11 +38,11 @@ const App = () => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route element={<Profile posts={postsData}/>} path='/profile'/>
-                        <Route element={<Dialogs dialog={dialogsData} message={messageData}/>} path='/dialogs/*'/>
-                        <Route element={<Music/>} path='/music'/>
-                        <Route element={<News/>} path='/news'/>
-                        <Route element={<Settings/>} path='/settings'/>
+                        <Route element={<Profile posts={props.posts}/>} path='/profile/*'/>
+                        <Route element={<Dialogs dialog={props.dialog} message={props.message}/>} path='/dialogs/*'/>
+                        <Route element={<Music/>} path='/music/*'/>
+                        <Route element={<News/>} path='/news/*'/>
+                        <Route element={<Settings/>} path='/settings/*'/>
                     </Routes>
                 </div>
             </div>
