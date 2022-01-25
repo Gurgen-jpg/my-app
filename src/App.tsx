@@ -12,30 +12,31 @@ import Settings from "./components/Settings/Settings";
 
 
 
-type postsType = {
+export type postsType = {
     id: number,
     message: string,
     likesCount: number
 }
-type dialogsType = {
+export type dialogsType = {
     id: number,
     name: string
 }
-type messageType = {
+export type messageType = {
     id: number,
     message: string
 }
 
-type stateType = {
-
-    posts: Array<postsType>,
-    message: Array<messageType>,
-    dialogs: Array<dialogsType>
+export type AppPropsType = {
+    state: {
+        profilePage: {
+            posts: Array<postsType>
+        },
+        messagePage: {
+            dialogs: Array<dialogsType>,
+            message: Array<messageType>
+        }
+    }
 }
-type AppPropsType = {
-    state: stateType
-}
-
 const App = (props: AppPropsType) => {
 
     return (
@@ -45,8 +46,8 @@ const App = (props: AppPropsType) => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route element={<Profile posts={props.state.posts}/>} path='/profile/*'/>
-                        <Route element={<Dialogs dialog={props.state.dialogs} message={props.state.message}/>} path='/dialogs/*'/>
+                        <Route element={<Profile state={props.state.profilePage}/>} path='/profile/*'/>
+                        <Route element={<Dialogs state={props.state.messagePage}/>} path='/dialogs/*'/>
                         <Route element={<Music/>} path='/music/*'/>
                         <Route element={<News/>} path='/news/*'/>
                         <Route element={<Settings/>} path='/settings/*'/>

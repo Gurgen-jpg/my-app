@@ -6,7 +6,7 @@ import React from "react";
 
 type PostPropsType = {
     message: string,
-    likeCount: number;
+    likesCount: number;
 }
 
 function Post(props: PostPropsType) {
@@ -15,7 +15,7 @@ function Post(props: PostPropsType) {
             <img src={'http://archilab.online/images/1/123.jpg'} alt={'avatarka'}/>
             {props.message}
             <div>
-                <span>Like {props.likeCount}</span>
+                <span>Like {props.likesCount}</span>
             </div>
         </div>
 
