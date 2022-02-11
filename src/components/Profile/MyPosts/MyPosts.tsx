@@ -10,7 +10,18 @@ type MyPostsPropsType = {
 function MyPosts(props: MyPostsPropsType) {
 
     let myPostsItem =
-        props.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
+        props.posts.map((p,id) => <Post key={id} message={p.message} likesCount={p.likesCount}/>)
+    //добавляю ссылку на объект
+
+    let newPostElement: any = React.createRef()
+
+    //функция кнопки добавить пост
+    const addPost = () => {
+        let text = newPostElement.current.value;
+        alert(text)
+    }
+
+
 
     return (
 
@@ -18,10 +29,10 @@ function MyPosts(props: MyPostsPropsType) {
             my posts
             <div>
                 <div>
-                    <textarea/>
+                    <textarea ref={newPostElement}/>
                 </div>
                 <div>
-                    <button>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                     <button>Remove</button>
                 </div>
             </div>

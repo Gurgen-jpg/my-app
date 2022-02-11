@@ -4,17 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import state from "./components/redux/state";
+import {BrowserRouter} from "react-router-dom";
 
 
+ReactDOM.render(
+    <BrowserRouter>
+        <App state={state}/>
+    </BrowserRouter>,
+    document.getElementById('root'));
 
-
-    ReactDOM.render(<App state={state}/>,
-
-
-    document.getElementById('root')
-
-
-);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
