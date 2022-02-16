@@ -13,11 +13,11 @@ function MyPosts(props: MyPostsPropsType) {
         props.posts.map((p,id) => <Post key={id} message={p.message} likesCount={p.likesCount}/>)
     //добавляю ссылку на объект
 
-    let newPostElement: any = React.createRef()
+    let newPostElement = React.createRef<HTMLTextAreaElement>()  /*//создали пустую ссылку*/
 
     //функция кнопки добавить пост
     const addPost = () => {
-        let text = newPostElement.current.value;
+        let text = newPostElement.current?.value;
         alert(text)
     }
 
@@ -29,7 +29,7 @@ function MyPosts(props: MyPostsPropsType) {
             my posts
             <div>
                 <div>
-                    <textarea ref={newPostElement}/>
+                    <textarea ref={newPostElement}></textarea>   {/*// привязка ссылки*/}
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>

@@ -11,10 +11,17 @@
 }
 .messages {
     padding: 10px;
+    display: flex;
+    min-width: 300px;
+    width: 40%;
+    flex-direction: column;
 
+}
+.button {
+    width: 50px;
 
 }
 .messages .dialog {
-
 }
+
 
