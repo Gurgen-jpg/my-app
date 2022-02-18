@@ -5,11 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import state from "./components/redux/state";
 import {BrowserRouter} from "react-router-dom";
+import {addPost} from "./components/redux/state";
+
+
+//addPost('YOYOYO JS samuray');
+
+
 
 
 ReactDOM.render(
     <BrowserRouter>
-        <App state={state}/>
+        <App state={state} addPost={addPost}/>
+
     </BrowserRouter>,
     document.getElementById('root'));
 

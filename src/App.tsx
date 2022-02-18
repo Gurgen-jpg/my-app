@@ -9,12 +9,13 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
+import {addPost} from "./components/redux/state";
 
 
 
 export type postsType = {
     id: number,
-    message: string,
+    message: string
     likesCount: number
 }
 export type dialogsType = {
@@ -36,6 +37,7 @@ export type AppPropsType = {
             message: Array<messageType>
         }
     }
+    addPost: (postMessage:string) => void
 }
 const App = (props: AppPropsType) => {
 
@@ -45,7 +47,7 @@ const App = (props: AppPropsType) => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route element={<Profile state={props.state.profilePage}/>} path='/profile/*'/>
+                        <Route element={<Profile state={props.state.profilePage} addPost={props.addPost}/>} path='/profile/*'/>
                         <Route element={<Dialogs state={props.state.messagePage}/>} path='/dialogs/*'/>
                         <Route element={<Music/>} path='/music/*'/>
                         <Route element={<News/>} path='/news/*'/>
