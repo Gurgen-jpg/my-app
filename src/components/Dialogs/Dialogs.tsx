@@ -22,7 +22,7 @@ const Dialogs = (props: DialogsPropsType) => {
     let newMessageElement = React.createRef<HTMLTextAreaElement>()
     
     const onClickHandler = () => {
-      let message = newMessageElement.current?.value;
+      let message = newMessageElement.current!.value;
       alert(message)
     }
     

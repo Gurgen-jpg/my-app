@@ -2,34 +2,27 @@ import s from "./MyPosts.module.css";
 import React, {ChangeEvent, MouseEvent, useState} from "react";
 import Post from "./Post/Post";
 import {postsType} from "../../../App";
-import {stringify} from "querystring";
+
 
 type MyPostsPropsType = {
     posts: Array<postsType>
-    addPost: (postMessage:string) => void
+    addPost: (postMessage: string) => void
 }
 
 function MyPosts(props: MyPostsPropsType) {
-    const [text, setText] = useState<string>('')
-
-    const onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-      setText(e.currentTarget.value)
-
-    }
 
     let myPostsItem =
-        props.posts.map((p,id) => <Post key={id} message={p.message} likesCount={p.likesCount}/>)
+        props.posts.map((p, id) => <Post key={id} message={p.message} likesCount={p.likesCount}/>)
     //добавляю ссылку на объект
 
-    /*let newPostElement = React.createRef<HTMLTextAreaElement>()  /!*!//создали пустую ссылку*!/*/
+    let newPostElement = React.createRef<HTMLTextAreaElement>();
 
     //функция кнопки добавить пост
     const onClickButtonHandler = () => {
-
+        let text = newPostElement.current!.value
         props.addPost(text)
-        setText('');
+        newPostElement.current!.value = '';
     }
-
 
 
     return (
@@ -38,7 +31,7 @@ function MyPosts(props: MyPostsPropsType) {
             my posts
             <div>
                 <div>
-                    <textarea value={text} onChange={onChangeHandler}></textarea>   {/*// привязка ссылки*/}
+                    <textarea ref={newPostElement}></textarea> {/*// привязка ссылки*/}
                 </div>
                 <div>
                     <button onClick={onClickButtonHandler}>Add post</button>

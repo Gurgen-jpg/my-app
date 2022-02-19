@@ -1,4 +1,4 @@
-import {postsType} from "../../App";
+import {letRerenderEntireTree} from "../../Render";
 
 
 let state = {
@@ -26,12 +26,14 @@ let state = {
 
 export const addPost = (postMessage: string) => {
     let newPost = {
-        id: 3,
+        id: state.profilePage.posts.at(-1)!.id + 1 ,
         message: postMessage,
         likesCount: 0
     };
-
     state.profilePage.posts.push(newPost)
+    letRerenderEntireTree(state);
 }
+
+
 
 export default state;
