@@ -6,22 +6,35 @@ import {postsType} from "../../../App";
 
 type MyPostsPropsType = {
     posts: Array<postsType>
-    addPost: (postMessage: string) => void
+    addPost: () => void
+    updateNewPostText: (newText:string) => void
+    newPostText: string
 }
 
 function MyPosts(props: MyPostsPropsType) {
 
     let myPostsItem =
-        props.posts.map((p, id) => <Post key={id} message={p.message} likesCount={p.likesCount}/>)
+        props.posts.map((p, id) =>
+            <Post
+                key={id}
+                message={p.message}
+                likesCount={p.likesCount}
+            />)
     //добавляю ссылку на объект
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
     //функция кнопки добавить пост
-    const onClickButtonHandler = () => {
-        let text = newPostElement.current!.value
-        props.addPost(text)
-        newPostElement.current!.value = '';
+    const addPost = () => {
+       // let text = newPostElement.current!.value
+        props.addPost()
+
+
+    }
+// Стейт получает каждое значение
+    const onPostOnchange = () => {
+        let text = newPostElement.current!.value;
+        props.updateNewPostText(text)
     }
 
 
@@ -31,10 +44,13 @@ function MyPosts(props: MyPostsPropsType) {
             my posts
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea> {/*// привязка ссылки*/}
+                    <textarea ref={newPostElement}
+                              value={props.newPostText}
+                              onChange={onPostOnchange}
+                    /> {/*// привязка ссылки*/}
                 </div>
                 <div>
-                    <button onClick={onClickButtonHandler}>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                     <button>Remove</button>
                 </div>
             </div>
