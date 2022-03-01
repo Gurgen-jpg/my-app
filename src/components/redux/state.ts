@@ -1,4 +1,33 @@
-import {letRerenderEntireTree} from "../../Render";
+export type PostTypeProps = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type DialogsTypeProps = {
+    id: number
+    name: string
+}
+export type MessageTypeProps = {
+    id: number
+    message: string
+}
+export type ProfilePageTypeProps = {
+    posts: Array<PostTypeProps>
+    newPostText: string
+}
+export type MessagePageTypeProps = {
+    dialogs: Array<DialogsTypeProps>
+    message: Array<MessageTypeProps>
+}
+
+export type StateType = {
+    state: MessageTypeProps & ProfilePageTypeProps
+}
+
+
+let reRenderEntireTree = (state:any) => {
+
+}
 
 
 let state = {
@@ -33,15 +62,17 @@ export const addPost = () => {
     };
     state.profilePage.posts.push(newPost)
     state.profilePage.newPostText = ''
-    letRerenderEntireTree(state);
+    reRenderEntireTree(state);
 }
 
 export const updateNewPostText = (newText:string) => {
     state.profilePage.newPostText = newText;
-    letRerenderEntireTree(state)
+    reRenderEntireTree(state)
   
 }
 
-
+export const subscribe = (observe:any) => {
+    reRenderEntireTree = observe
+}
 
 export default state;
