@@ -16,27 +16,28 @@ export type ProfilePageTypeProps = {
     newPostText: string
 }
 export type MessagePageTypeProps = {
-    dialogs: Array<DialogsTypeProps>
-    message: Array<MessageTypeProps>
+        dialogs: Array<DialogsTypeProps>
+        message: Array<MessageTypeProps>
 }
 
-export type StateType = {
-    state: MessageTypeProps & ProfilePageTypeProps
-}
-
-
-let reRenderEntireTree = (state:any) => {
-
+export type RootStateType = {
+    profilePage: ProfilePageTypeProps,
+    messagePage: MessagePageTypeProps
 }
 
 
-let state = {
+
+let reRenderEntireTree = (state:RootStateType) => {
+}
+
+
+let state: RootStateType = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
             {id: 2, message: '"Hi, how are you?"', likesCount: 20}
         ],
-        newPostText: 'it=kama'
+        newPostText: ''
     },
     messagePage: {
         dialogs: [
@@ -71,7 +72,7 @@ export const updateNewPostText = (newText:string) => {
   
 }
 
-export const subscribe = (observe:any) => {
+export const subscribe = (observe: (state:RootStateType)=>void) => {
     reRenderEntireTree = observe
 }
 

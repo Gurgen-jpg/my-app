@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
-import App, {AppPropsType} from "./App";
-import state, {addPost, StateType, subscribe, updateNewPostText} from "./components/redux/state";
+import App from "./App";
+import state, {addPost, RootStateType, subscribe, updateNewPostText} from "./components/redux/state";
 
 
-const reRenderEntireTree = (state:any) => {
+const reRenderEntireTree = (state:RootStateType) => {
     ReactDOM.render(
         <BrowserRouter>
             <App

@@ -2,14 +2,12 @@ import React from "react";
 import s from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/Profileinfo";
-import {postsType} from "../../App";
-import {updateNewPostText} from "../redux/state";
 
-type ProfilePropsType = {
-    profilePage: {
-        posts: Array<postsType>,
-        newPostText: string
-    }
+import {ProfilePageTypeProps, updateNewPostText} from "../redux/state";
+
+type ProfilePropsType =  {
+    profilePage: ProfilePageTypeProps
+
     addPost: () => void
     updateNewPostText: (newText:string) => void
 }

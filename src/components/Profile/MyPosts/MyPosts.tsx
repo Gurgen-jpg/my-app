@@ -1,14 +1,16 @@
 import s from "./MyPosts.module.css";
 import React, {ChangeEvent, MouseEvent, useState} from "react";
 import Post from "./Post/Post";
-import {postsType} from "../../../App";
+
+import {ProfilePageTypeProps} from "../../redux/state";
 
 
-type MyPostsPropsType = {
-    posts: Array<postsType>
+type MyPostsPropsType = ProfilePageTypeProps & {
+
     addPost: () => void
     updateNewPostText: (newText:string) => void
-    newPostText: string
+ /*   newPostText: string
+    posts: Array<postsType>*/
 }
 
 function MyPosts(props: MyPostsPropsType) {
