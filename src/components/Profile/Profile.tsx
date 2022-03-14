@@ -3,7 +3,7 @@ import s from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/Profileinfo";
 
-import {ProfilePageTypeProps, updateNewPostText} from "../redux/state";
+import {ProfilePageTypeProps} from "../redux/state";
 
 type ProfilePropsType =  {
     profilePage: ProfilePageTypeProps

@@ -9,7 +9,7 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {addPost, RootStateType, updateNewPostText} from "./components/redux/state";
+import {RootStateType} from "./components/redux/state";
 
 
 export type AppPropsType = {
