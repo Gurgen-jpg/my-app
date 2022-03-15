@@ -9,14 +9,12 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import store, {RootStateType, StoreType} from "./components/redux/state";
+import {StoreType} from "./components/redux/state";
 
 
 export type AppPropsType = {
     store: StoreType
-    /*store:StoreType
-    addPost: () => void
-    updateNewPostText: (newText:string) => void*/
+
 }
 const App = (props: AppPropsType) => {
     const state = props.store.getState()
@@ -29,8 +27,8 @@ const App = (props: AppPropsType) => {
             <div className="app-wrapper-content">
                 <Routes>
                     <Route element={<Profile profilePage={state.profilePage}
-                                             addPost={props.store.addPost.bind(props.store)}
-                                             updateNewPostText={props.store.updateNewPostText.bind(props.store)}
+                                             dispatch={props.store.dispatch.bind(props.store)}
+                                             /*updateNewPostText={props.store.dispatch.bind(props.store)}*/
 
                     />}
                            path='/profile/*'

@@ -22,21 +22,28 @@ export type MessagePageTypeProps = {
 export type RootStateType = {
     profilePage: ProfilePageTypeProps,
     messagePage: MessagePageTypeProps
-    /*getState: ()=>void,
-    reRenderEntireTree :(state:RootStateType)=>void,
-    addPost :()=> void,
-    updateNewPostText :(newText:string)=> void,
-    subscribe: (observe: (state:RootStateType)=>void)=> void*/
+
 }
 export type StoreType = {
     _state:RootStateType,
     getState: ()=>RootStateType,
     reRenderEntireTree :(state:RootStateType)=>void,
-    addPost :()=> void,
-    updateNewPostText :(newText:string)=> void,
     subscribe: (observe: ()=>void)=> void
-}
 
+    /*addPost :()=> void,
+    updateNewPostText :(newText:string)=> void,*/
+    dispatch:(action:ActionsTypes)=>void
+
+}
+export type AddPostActionType = {
+    type: 'ADD-POST'
+    /*newPostText: string*/
+}
+export type UpdateNewPostTextActonType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
+export type ActionsTypes = AddPostActionType | UpdateNewPostTextActonType
 let store = {
     _state: {
         profilePage: {
@@ -64,7 +71,7 @@ let store = {
     getState(){return this._state},
     reRenderEntireTree (state:RootStateType) {
     },
-    addPost (){
+    /*addPost (){
         let newPost = {
             id: this._state.profilePage.posts.at(-1)!.id + 1 ,
             message: this._state.profilePage.newPostText,
@@ -77,61 +84,27 @@ let store = {
     updateNewPostText (newText:string){
         this._state.profilePage.newPostText = newText;
         this.reRenderEntireTree(this._state)
-    },
+    },*/
      subscribe (observe: ()=> void){
         this.reRenderEntireTree = observe
-    }
-
-}
-/*let reRenderEntireTree = (state:RootStateType) => {
-}*/
-
-/*
-let state: RootStateType = {
-    profilePage: {
-        posts: [
-            {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
-            {id: 2, message: '"Hi, how are you?"', likesCount: 20}
-        ],
-        newPostText: ''
     },
-    messagePage: {
-        dialogs: [
-            {id: 1, name: 'Gurgen'},
-            {id: 2, name: 'Katiy'},
-            {id: 3, name: 'Artem'},
-            {id: 4, name: 'Kirill'}
-        ],
-        message: [
-            {id: 1, message: 'How is your IT'},
-            {id: 2, message: 'Yooo'},
-            {id: 3, message: 'Hello man'},
-            {id: 4, message: 'Hey!'}
-        ]
+    dispatch (action: ActionsTypes){
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: this._state.profilePage.posts.at(-1)!.id + 1 ,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this.reRenderEntireTree(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this.reRenderEntireTree(this._state)
+        }
     }
-}*/
 
-/*export const addPost = () => {
-    let newPost = {
-        id: state.profilePage.posts.at(-1)!.id + 1 ,
-        message: state.profilePage.newPostText,
-        likesCount: 0
-    };
-    state.profilePage.posts.push(newPost)
-    state.profilePage.newPostText = ''
-    reRenderEntireTree(state);
-}*/
-
-/*
-export const updateNewPostText = (newText:string) => {
-    state.profilePage.newPostText = newText;
-    reRenderEntireTree(state)
-  
 }
-*/
 
-/*export const subscribe = (observe: (state:RootStateType)=>void) => {
-    reRenderEntireTree = observe
-}*/
 
 export default store;

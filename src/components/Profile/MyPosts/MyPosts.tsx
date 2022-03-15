@@ -2,15 +2,14 @@ import s from "./MyPosts.module.css";
 import React, {ChangeEvent, MouseEvent, useState} from "react";
 import Post from "./Post/Post";
 
-import {ProfilePageTypeProps} from "../../redux/state";
+import {ActionsTypes, ProfilePageTypeProps} from "../../redux/state";
 
 
 type MyPostsPropsType = ProfilePageTypeProps & {
+    dispatch: (action: ActionsTypes) => void
+    /*addPost: () => void
+    updateNewPostText: (newText:string) => void*/
 
-    addPost: () => void
-    updateNewPostText: (newText:string) => void
- /*   newPostText: string
-    posts: Array<postsType>*/
 }
 
 function MyPosts(props: MyPostsPropsType) {
@@ -29,14 +28,16 @@ function MyPosts(props: MyPostsPropsType) {
     //функция кнопки добавить пост
     const addPost = () => {
        // let text = newPostElement.current!.value
-        props.addPost()
+        props.dispatch({type: "ADD-POST"})
+        /*props.addPost()*/
 
 
     }
 // Стейт получает каждое значение
     const onPostOnchange = () => {
         let text = newPostElement.current!.value;
-        props.updateNewPostText(text)
+        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
+        /* props.updateNewPostText(text)*/
     }
 
 
