@@ -34,7 +34,7 @@ export type StoreType = {
     reRenderEntireTree :(state:RootStateType)=>void,
     addPost :()=> void,
     updateNewPostText :(newText:string)=> void,
-    subscribe: (observe: (state:RootStateType)=>void)=> void
+    subscribe: (observe: ()=>void)=> void
 }
 
 let store = {
@@ -78,7 +78,7 @@ let store = {
         this._state.profilePage.newPostText = newText;
         this.reRenderEntireTree(this._state)
     },
-     subscribe (observe: (state:RootStateType)=>void){
+     subscribe (observe: ()=> void){
         this.reRenderEntireTree = observe
     }
 
