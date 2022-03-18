@@ -1,3 +1,6 @@
+import {profileReducer} from "./profile-reudcer";
+import {dialogsReducer} from "./dialogs-reducer";
+
 export type PostTypeProps = {
     id: number
     message: string
@@ -53,10 +56,8 @@ export type AddNewMessage = {
 }
 
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE = "UPDATE-NEW-MESSAGE";
-const ADD_NEW_MESSAGE = 'ADD-NEW-MESSAGE';
+
+
 
 
 export type ActionsTypes = AddPostActionType | UpdateNewPostTextActonType | UpdateNewMessage | AddNewMessage
@@ -85,6 +86,7 @@ let store = {
             newMessageText: ''
         }
     },
+
     getState() {
         return this._state
     },
@@ -109,7 +111,10 @@ let store = {
     },
     dispatch(action: ActionsTypes) {
         ///Страница Постов
-        if (action.type === ADD_POST) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.messagePage = dialogsReducer(this._state.messagePage, action)
+        this.reRenderEntireTree(this._state)
+        /*if (action.type === ADD_POST) {
             let newPost = {
                 id: this._state.profilePage.posts.at(-1)!.id + 1,
                 message: this._state.profilePage.newPostText,
@@ -133,33 +138,14 @@ let store = {
             }
             this._state.messagePage.newMessageText = ""
             this._state.messagePage.message.push(newMessage)
-            this.reRenderEntireTree(this._state)
+            this.reRenderEntireTree(this._state)*/
         }
     }
 
-}
-export let addPostActionCreator = (): AddPostActionType => {
-    return ({type: ADD_POST})
-}
 
-export let onPostOnchangeActionCreator = (text: string): UpdateNewPostTextActonType => {
-    return ({
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    })
-}
 
-export const addMessageCreator = (): AddNewMessage => {
-    return ({
-        type: ADD_NEW_MESSAGE
-    })
-}
-export const updateNewMessageText = (text: string): UpdateNewMessage => {
-    return ({
-        type: UPDATE_NEW_MESSAGE,
-        newMessageText: text
-    })
-}
+
+
 
 
 export default store;
