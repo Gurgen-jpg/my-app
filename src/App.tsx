@@ -33,7 +33,8 @@ const App = (props: AppPropsType) => {
                     />}
                            path='/profile/*'
                     />
-                    <Route element={<Dialogs messagePage={state.messagePage}/>} path='/dialogs/*'/>
+                    <Route element={<Dialogs messagePage={state.messagePage}
+                                             dispatch={props.store.dispatch.bind(props.store)}/>} path='/dialogs/*'/>
                     <Route element={<Music/>} path='/music/*'/>
                     <Route element={<News/>} path='/news/*'/>
                     <Route element={<Settings/>} path='/settings/*'/>
