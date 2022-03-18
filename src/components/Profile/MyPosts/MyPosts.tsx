@@ -1,21 +1,11 @@
 import s from "./MyPosts.module.css";
 import React, {ChangeEvent, MouseEvent, useState} from "react";
 import Post from "./Post/Post";
-
-import {
-    ActionsTypes,
-    addPostActionCreator,
-    AddPostActionType, onPostOnchangeActionCreator,
-    ProfilePageTypeProps,
-    UpdateNewPostTextActonType
-} from "../../redux/state";
-
+import {ActionsTypes, ProfilePageTypeProps,} from "../../redux/state";
+import {addPostActionCreator, onPostOnchangeActionCreator} from './../../redux/profile-reudcer'
 
 type MyPostsPropsType = ProfilePageTypeProps & {
     dispatch: (action: ActionsTypes) => void
-    /*addPost: () => void
-    updateNewPostText: (newText:string) => void*/
-
 }
 //перенес в State.ts
 /*let addPostActionCreator = ():AddPostActionType => {
