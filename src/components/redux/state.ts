@@ -37,7 +37,7 @@ export type StoreType = {
 }
 export type AddPostActionType = {
     type: 'ADD-POST'
-    /*newPostText: string*/
+
 }
 export type UpdateNewPostTextActonType = {
     type: 'UPDATE-NEW-POST-TEXT'
@@ -104,6 +104,16 @@ let store = {
         }
     }
 
+}
+export let addPostActionCreator = ():AddPostActionType => {
+    return ({type: "ADD-POST"})
+}
+
+export let onPostOnchangeActionCreator = (text: string):UpdateNewPostTextActonType => {
+    return ({
+        type: 'UPDATE-NEW-POST-TEXT',
+        newText: text
+    })
 }
 
 

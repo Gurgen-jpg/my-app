@@ -2,7 +2,13 @@ import s from "./MyPosts.module.css";
 import React, {ChangeEvent, MouseEvent, useState} from "react";
 import Post from "./Post/Post";
 
-import {ActionsTypes, ProfilePageTypeProps} from "../../redux/state";
+import {
+    ActionsTypes,
+    addPostActionCreator,
+    AddPostActionType, onPostOnchangeActionCreator,
+    ProfilePageTypeProps,
+    UpdateNewPostTextActonType
+} from "../../redux/state";
 
 
 type MyPostsPropsType = ProfilePageTypeProps & {
@@ -11,7 +17,17 @@ type MyPostsPropsType = ProfilePageTypeProps & {
     updateNewPostText: (newText:string) => void*/
 
 }
+//перенес в State.ts
+/*let addPostActionCreator = ():AddPostActionType => {
+     return ({type: "ADD-POST"})
+}
 
+let onPostOnchangeActionCreator = (text: string):UpdateNewPostTextActonType => {
+    return ({
+        type: 'UPDATE-NEW-POST-TEXT',
+        newText: text
+    })
+}*/
 function MyPosts(props: MyPostsPropsType) {
 
     let myPostsItem =
@@ -26,17 +42,17 @@ function MyPosts(props: MyPostsPropsType) {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
     //функция кнопки добавить пост
+
     const addPost = () => {
-       // let text = newPostElement.current!.value
-        props.dispatch({type: "ADD-POST"})
+        /*props.dispatch(addPostActionCreator())*/
+        props.dispatch(addPostActionCreator())
         /*props.addPost()*/
-
-
     }
 // Стейт получает каждое значение
     const onPostOnchange = () => {
         let text = newPostElement.current!.value;
-        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
+        props.dispatch(onPostOnchangeActionCreator(text))
+        /*props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})*/
         /* props.updateNewPostText(text)*/
     }
 
