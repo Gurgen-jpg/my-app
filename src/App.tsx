@@ -10,11 +10,12 @@ import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 import {StoreType} from "./components/redux/store";
+import {ReduxStoreType} from "./components/redux/reduxStore";
 
 
 export type AppPropsType = {
-    store: StoreType
 
+    store: ReduxStoreType
 }
 const App = (props: AppPropsType) => {
     const state = props.store.getState()
@@ -33,7 +34,7 @@ const App = (props: AppPropsType) => {
                     />}
                            path='/profile/*'
                     />
-                    <Route element={<Dialogs messagePage={state.messagePage}
+                    <Route element={<Dialogs messagePage={state.dialogsPage}
                                              dispatch={props.store.dispatch.bind(props.store)}/>} path='/dialogs/*'/>
                     <Route element={<Music/>} path='/music/*'/>
                     <Route element={<News/>} path='/news/*'/>

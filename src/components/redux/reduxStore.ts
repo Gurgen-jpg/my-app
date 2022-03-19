@@ -4,7 +4,9 @@ import {dialogsReducer} from "./dialogs-reducer";
 
 
 let reducers = combineReducers( {
-    profileReducer,
-    dialogsReducer
+    profilePage: profileReducer,
+    dialogsPage: dialogsReducer
 })
 export let store = createStore(reducers)
+
+export type ReduxStoreType = typeof store
