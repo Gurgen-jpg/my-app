@@ -9,15 +9,15 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {StoreType} from "./components/redux/store";
 import {ReduxStoreType} from "./components/redux/reduxStore";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
-export type AppPropsType = {
+export type StoreType = {
 
     store: ReduxStoreType
 }
-const App = (props: AppPropsType) => {
+const App = (props: StoreType) => {
     const state = props.store.getState()
 
     return (
@@ -27,15 +27,9 @@ const App = (props: AppPropsType) => {
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route element={<Profile profilePage={state.profilePage}
-                                             dispatch={props.store.dispatch.bind(props.store)}
-                                             /*updateNewPostText={props.store.dispatch.bind(props.store)}*/
+                    <Route element={<Profile store={props.store}/>} path='/profile/*'/>
+                    <Route element={<DialogsContainer store={props.store}/>} path='/dialogs/*'/>
 
-                    />}
-                           path='/profile/*'
-                    />
-                    <Route element={<Dialogs messagePage={state.dialogsPage}
-                                             dispatch={props.store.dispatch.bind(props.store)}/>} path='/dialogs/*'/>
                     <Route element={<Music/>} path='/music/*'/>
                     <Route element={<News/>} path='/news/*'/>
                     <Route element={<Settings/>} path='/settings/*'/>

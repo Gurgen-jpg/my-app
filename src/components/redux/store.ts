@@ -28,7 +28,7 @@ export type RootStateType = {
     messagePage: MessagePageTypeProps
 
 }
-export type StoreType = {
+type StoreType = {
     _state: RootStateType,
     getState: () => RootStateType,
     reRenderEntireTree: (state: RootStateType) => void,

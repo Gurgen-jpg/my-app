@@ -5,7 +5,8 @@ import {ActionsTypes, ProfilePageTypeProps,} from "../../redux/store";
 import {addPostActionCreator, onPostOnchangeActionCreator} from './../../redux/profile-reudcer'
 
 type MyPostsPropsType = ProfilePageTypeProps & {
-    dispatch: (action: ActionsTypes) => void
+    updateNewPostText: (text: string) => void
+    addPost: () => void
 }
 //перенес в State.ts
 /*let addPostActionCreator = ():AddPostActionType => {
@@ -34,16 +35,12 @@ function MyPosts(props: MyPostsPropsType) {
     //функция кнопки добавить пост
 
     const addPost = () => {
-        /*props.dispatch(addPostActionCreator())*/
-        props.dispatch(addPostActionCreator())
-        /*props.addPost()*/
+        props.addPost()
     }
 // Стейт получает каждое значение
     const onPostOnchange = () => {
         let text = newPostElement.current!.value;
-        props.dispatch(onPostOnchangeActionCreator(text))
-        /*props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})*/
-        /* props.updateNewPostText(text)*/
+        props.updateNewPostText(text)
     }
 
 
