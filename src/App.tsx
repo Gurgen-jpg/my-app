@@ -9,14 +9,11 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {ReduxStoreType} from "./components/redux/reduxStore";
+import {ReduxStoreType, StoreType} from "./components/redux/reduxStore";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
-export type StoreType = {
 
-    store: ReduxStoreType
-}
 const App = (props: StoreType) => {
     const state = props.store.getState()
 

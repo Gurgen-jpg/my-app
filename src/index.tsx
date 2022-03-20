@@ -1,14 +1,14 @@
 import React from 'react';
-/*import store from "./components/redux/store";*/
-/*import {reRenderEntireTree} from "./components/render";*/
 import ReactDOM from "react-dom";
 import App from "./App";
 import {store} from "./components/redux/reduxStore";
+import {Provider} from "./StoreContext";
 
 export const reRenderEntireTree = () => {
     ReactDOM.render(
-
-        <App store={store}/* dispatch={store.dispatch}*//>
+        <Provider store={store}>
+            <App/>
+        </Provider>
         ,
         document.getElementById('root')
     );

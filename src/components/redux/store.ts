@@ -28,16 +28,14 @@ export type RootStateType = {
     messagePage: MessagePageTypeProps
 
 }
-type StoreType = {
+export type StoreTypeOld = {
+    store: {
     _state: RootStateType,
     getState: () => RootStateType,
     reRenderEntireTree: (state: RootStateType) => void,
     subscribe: (observe: () => void) => void
-
-    /*addPost :()=> void,
-    updateNewPostText :(newText:string)=> void,*/
     dispatch: (action: ActionsTypes) => void
-
+    }
 }
 
 export type AddPostActionType = {
