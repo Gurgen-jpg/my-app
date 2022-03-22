@@ -9,13 +9,13 @@ import {Routes} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {ReduxStoreType, StoreType} from "./components/redux/reduxStore";
+import {StoreType} from "./components/redux/reduxStore";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
 
-const App = (props: StoreType) => {
-    const state = props.store.getState()
+const App = () => {
+    /*const state = props.store.getState()*/
 
     return (
         <BrowserRouter>
@@ -24,8 +24,8 @@ const App = (props: StoreType) => {
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route element={<Profile store={props.store}/>} path='/profile/*'/>
-                    <Route element={<DialogsContainer store={props.store}/>} path='/dialogs/*'/>
+                    <Route element={<Profile/>} path='/profile/*'/>
+                    <Route element={<DialogsContainer/>} path='/dialogs/*'/>
 
                     <Route element={<Music/>} path='/music/*'/>
                     <Route element={<News/>} path='/news/*'/>

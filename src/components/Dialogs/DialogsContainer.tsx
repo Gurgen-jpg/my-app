@@ -1,31 +1,39 @@
 import React, {ChangeEvent} from 'react';
 import Dialogs from "./Dialogs";
-import {StoreType} from "../../App";
+
 
 import {addMessageCreator, updateNewMessageText} from "../redux/dialogs-reducer";
+import StoreContext from "../../StoreContext";
 
 
-export const DialogsContainer = (props: StoreType) => {
-    let state = props.store.getState().dialogsPage
+export const DialogsContainer = () => {
 
-    /*let dialogsElements =
-        props.store.getState().dialogsPage.dialogs;
-    let messagesElement =
-        props.store.getState().dialogsPage.message;*/
+    return (
+        <StoreContext.Consumer>
+            {
+            (store)=> {
+                let state = store.getState().dialogsPage
 
-    const onChange = (text: string) => {
-        props.store.dispatch(updateNewMessageText(text))
-    }
-    const onClick = () => {
-        props.store.dispatch(addMessageCreator())
-    }
+                /*let dialogsElements =
+                    props.store.getState().dialogsPage.dialogs;
+                let messagesElement =
+                    props.store.getState().dialogsPage.message;*/
 
+                const onChange = (text: string) => {
+                    store.dispatch(updateNewMessageText(text))
+                }
+                const onClick = () => {
+                    store.dispatch(addMessageCreator())
+                }
 
-
-    return <Dialogs onChange={onChange}
-                    onClick={onClick}
-                    value={props.store.getState().dialogsPage.newMessageText}
-                    messagePage={state}
-    />
+             return   <Dialogs onChange={onChange}
+                         onClick={onClick}
+                         value={store.getState().dialogsPage.newMessageText}
+                         messagePage={state}
+                />
+            }
+        }
+        </StoreContext.Consumer>
+    );
 };
 
