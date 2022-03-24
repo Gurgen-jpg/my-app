@@ -57,8 +57,7 @@ type AddNewMessage = {
 
 
 
-
-export type ActionsTypes = AddPostActionType | UpdateNewPostTextActonType | UpdateNewMessage | AddNewMessage
+type ActionsTypes = AddPostActionType | UpdateNewPostTextActonType | UpdateNewMessage | AddNewMessage
 let store = {
     _state: {
         profilePage: {
