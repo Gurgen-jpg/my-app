@@ -1,34 +1,34 @@
 import {profileReducer} from "./profile-reudcer";
 import {dialogsReducer} from "./dialogs-reducer";
 
-export type PostTypeProps = {
+type PostTypeProps = {
     id: number
     message: string
     likesCount: number
 }
-export type DialogsTypeProps = {
+type DialogsTypeProps = {
     id: number
     name: string
 }
-export type MessageTypeProps = {
+type MessageTypeProps = {
     id: number
     message: string
 }
-export type ProfilePageTypeProps = {
+type ProfilePageTypeProps = {
     posts: Array<PostTypeProps>
     newPostText: string
 }
-export type MessagePageTypeProps = {
+type MessagePageTypeProps = {
     dialogs: Array<DialogsTypeProps>
     message: Array<MessageTypeProps>
     newMessageText: string
 }
-export type RootStateType = {
+type RootStateType = {
     profilePage: ProfilePageTypeProps,
     messagePage: MessagePageTypeProps
 
 }
-export type StoreTypeOld = {
+type StoreTypeOld = {
     store: {
     _state: RootStateType,
     getState: () => RootStateType,
@@ -38,18 +38,18 @@ export type StoreTypeOld = {
     }
 }
 
-export type AddPostActionType = {
+type AddPostActionType = {
     type: 'ADD-POST'
 }
-export type UpdateNewPostTextActonType = {
+type UpdateNewPostTextActonType = {
     type: 'UPDATE-NEW-POST-TEXT'
     newText: string
 }
-export type UpdateNewMessage = {
+type UpdateNewMessage = {
     type: 'UPDATE-NEW-MESSAGE',
     newMessageText: string
 }
-export type AddNewMessage = {
+type AddNewMessage = {
     type: 'ADD-NEW-MESSAGE'
 }
 
@@ -107,12 +107,12 @@ let store = {
     subscribe(observe: () => void) {
         this.reRenderEntireTree = observe
     },
-    dispatch(action: ActionsTypes) {
+  /*  dispatch(action: ActionsTypes) {
         ///Страница Постов
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.messagePage = dialogsReducer(this._state.messagePage, action)
         this.reRenderEntireTree(this._state)
-        /*if (action.type === ADD_POST) {
+        /!*if (action.type === ADD_POST) {
             let newPost = {
                 id: this._state.profilePage.posts.at(-1)!.id + 1,
                 message: this._state.profilePage.newPostText,
@@ -136,8 +136,8 @@ let store = {
             }
             this._state.messagePage.newMessageText = ""
             this._state.messagePage.message.push(newMessage)
-            this.reRenderEntireTree(this._state)*/
-        }
+            this.reRenderEntireTree(this._state)*!/
+        }*/
     }
 
 

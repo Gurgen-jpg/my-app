@@ -1,39 +1,36 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import Dialogs from "./Dialogs";
+import {addMessageCreator, InitialStateType, updateNewMessageText} from "../redux/dialogs-reducer";
+import {connect} from "react-redux";
+import {AppStateType} from "../redux/reduxStore";
+
+import {Dispatch} from "redux";
+
+type mapStateToProps = InitialStateType
+type mapDispatchToProps = {
+    onChange: (text: string) => void
+    onClick: ()=>void
+}
+export type DialogsPropsType = mapStateToProps & mapDispatchToProps
 
 
-import {addMessageCreator, updateNewMessageText} from "../redux/dialogs-reducer";
-import StoreContext from "../../StoreContext";
+const mapStateToProps = (state: AppStateType) => {
+    return {
+        newMessageText: state.dialogsPage.newMessageText,
+        dialogs: state.dialogsPage.dialogs,
+        messages: state.dialogsPage.messages
+    }
+}
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        onChange: (text: string) =>
+            dispatch(updateNewMessageText(text)),
+        onClick: ()=> dispatch(addMessageCreator())
+    }
+
+}
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
 
 
-export const DialogsContainer = () => {
-
-    return (
-        <StoreContext.Consumer>
-            {
-            (store)=> {
-                let state = store.getState().dialogsPage
-
-                /*let dialogsElements =
-                    props.store.getState().dialogsPage.dialogs;
-                let messagesElement =
-                    props.store.getState().dialogsPage.message;*/
-
-                const onChange = (text: string) => {
-                    store.dispatch(updateNewMessageText(text))
-                }
-                const onClick = () => {
-                    store.dispatch(addMessageCreator())
-                }
-
-             return   <Dialogs onChange={onChange}
-                         onClick={onClick}
-                         value={store.getState().dialogsPage.newMessageText}
-                         messagePage={state}
-                />
-            }
-        }
-        </StoreContext.Consumer>
-    );
-};
 

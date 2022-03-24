@@ -1,9 +1,20 @@
-import {ActionsTypes, AddPostActionType, ProfilePageTypeProps, UpdateNewPostTextActonType} from "./store";
+import {ActionsTypes} from "./reduxStore";
+
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
 
-let initialState: ProfilePageTypeProps = {
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type InitialStateType = {
+    posts: PostType[]
+    newPostText: string
+}
+
+let initialState: InitialStateType= {
     posts: [
         {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
         {id: 2, message: '"Hi, how are you?"', likesCount: 20}
@@ -11,29 +22,40 @@ let initialState: ProfilePageTypeProps = {
     newPostText: ''
 }
 
-export const profileReducer = (state = initialState, action: ActionsTypes) => {
+export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case "ADD-POST":
+        case ADD_POST:
             let newPost = {
                 id: state.posts.at(-1)!.id + 1,
                 message: state.newPostText,
                 likesCount: 0
             };
-            state.posts.push(newPost)
             state.newPostText = ''
-            return state;
-        case "UPDATE-NEW-POST-TEXT":
-            state.newPostText = action.newText;
-            return state;
+            return {
+                ...state, posts: [...state.posts, newPost]
+            }
+        case UPDATE_NEW_POST_TEXT:
+            return {
+                ...state, newPostText: action.newText
+            }
         default:
             return state
     }
 }
 
+
+export type AddPostActionType = {
+    type: 'ADD-POST'
+}
 export let addPostActionCreator = (): AddPostActionType => {
     return ({type: ADD_POST})
 }
 
+
+export type UpdateNewPostTextActonType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
 export let onPostOnchangeActionCreator = (text: string): UpdateNewPostTextActonType => {
     return ({
         type: UPDATE_NEW_POST_TEXT,

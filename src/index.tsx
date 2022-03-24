@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import App from "./App";
 import {store} from "./components/redux/reduxStore";
-import {Provider} from "./StoreContext";
+import {Provider} from 'react-redux';
 
-export const reRenderEntireTree = () => {
+
     ReactDOM.render(
         <Provider store={store}>
             <App/>
@@ -12,8 +12,5 @@ export const reRenderEntireTree = () => {
         ,
         document.getElementById('root')
     );
-}
 
-reRenderEntireTree();
-store.subscribe(reRenderEntireTree)
 
