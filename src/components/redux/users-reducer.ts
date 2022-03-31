@@ -4,46 +4,38 @@ const FOLLOW = 'FOLLOW';
 const UN_FOLLOW = 'UN-FOLLOW';
 const SET_USERS = 'SET-USERS';
 
-export type UserLocationType = {
+/*export type UserLocationType = {
     city: string
     country: string
+}*/
+export type UsersResponseType = {
+    items: UType[]
+    totalCount: number
+    error: null | string
 }
-export type UserType = {
+export type UType = {
+    name: string
     id: number
-    photo: string
-    follow: boolean
-    fullName: string
-    status: string
-    location: UserLocationType
+    uniqueUrlName: null | string
+    photos: {
+        small: null | string
+        large: null | string
+    }
+    status: null | string
+    followed: boolean
 }
 
+// export type UserType = {
+//     id: number
+//     photo: string
+//     follow: boolean
+//     fullName: string
+//     status: string
+//     location: UserLocationType
+// }
+
 const initialState = {
-    users: [
-        {
-            id: 1,
-            photo: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2020/06/18/41591.JPG',
-            follow: false,
-            fullName: 'Gurgen',
-            status: 'manager',
-            location: {city: 'Rostov-on-Don', country: 'Russia'}
-        },
-        {
-            id: 2,
-            photo: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2020/06/18/41591.JPG',
-            follow: false,
-            fullName: 'Katya',
-            status: 'manager wife',
-            location: {city: 'Rostov-on-Don', country: 'Russia'}
-        },
-        {
-            id: 3,
-            photo: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2020/06/18/41591.JPG',
-            follow: false,
-            fullName: 'Dima',
-            status: 'manager',
-            location: {city: 'Sochi', country: 'Russia'}
-        }
-    ] as Array<UserType>
+    users: [] as Array<UType>
 }
 export type InitialStateType = typeof initialState;
 
@@ -52,18 +44,18 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
     switch (action.type) {
         case FOLLOW: {
             const copy = {
-                ...state, users: state.users.map(el => el.id === action.payload.userID ? {...el, follow: true} : el)
+                ...state, users: state.users.map(el => el.id === action.payload.userID ? {...el, followed: true} : el)
             }
             debugger
             return copy;
         }
         case UN_FOLLOW: {
             return {
-                ...state, users: state.users.map(el => el.id === action.payload.userID ? {...el, follow: false} : el)
+                ...state, users: state.users.map(el => el.id === action.payload.userID ? {...el, followed: false} : el)
             }
         }
         case SET_USERS:
-            return  {
+            return {
                 ...state, users: [...state.users, ...action.payload.users]
             }
         default:
@@ -86,7 +78,7 @@ export type UnFollowACType = {
 export type SetUsersACType = {
     type: 'SET-USERS'
     payload: {
-        users: Array<UserType>
+        users: Array<UType>
     }
 }
 export const followAC = (userID: number) => ({
@@ -96,4 +88,4 @@ export const followAC = (userID: number) => ({
     }
 })
 export const unFollowAC = (userID: number) => ({type: UN_FOLLOW, payload: {userID}})
-export const setUsersAC = (users: Array<UserType>) => ({type: SET_USERS, payload: {users}})
+export const setUsersAC = (users: Array<UType>) => ({type: SET_USERS, payload: {users}})
