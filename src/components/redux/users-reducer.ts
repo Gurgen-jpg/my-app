@@ -4,10 +4,6 @@ const FOLLOW = 'FOLLOW';
 const UN_FOLLOW = 'UN-FOLLOW';
 const SET_USERS = 'SET-USERS';
 
-/*export type UserLocationType = {
-    city: string
-    country: string
-}*/
 export type UsersResponseType = {
     items: UType[]
     totalCount: number
@@ -25,14 +21,6 @@ export type UType = {
     followed: boolean
 }
 
-// export type UserType = {
-//     id: number
-//     photo: string
-//     follow: boolean
-//     fullName: string
-//     status: string
-//     location: UserLocationType
-// }
 
 const initialState = {
     users: [] as Array<UType>

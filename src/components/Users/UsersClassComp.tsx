@@ -6,20 +6,22 @@ import {UsersResponseType} from "../redux/users-reducer";
 
 class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseType>{
 
-    getUsers = () => {
-        if (this.props.users.length === 0) {
-            axios
-                .get('https://social-network.samuraijs.com/api/1.0/users')
-                .then((response: AxiosResponse<UsersResponseType>) => {
-                    this.props.setUsers(response.data.items)
-                })
-        }
+    //  Конструктор можно не писать, НО пусть БУДЕТ))
+    constructor(props: UsersPagePropsType) {
+        super(props)
+    }
+
+    componentDidMount() {
+        axios
+            .get('https://social-network.samuraijs.com/api/1.0/users')
+            .then((response: AxiosResponse<UsersResponseType>) => {
+                this.props.setUsers(response.data.items)
+            })
     }
 
     render() {
         return (
             <div className={s.wrapper}>
-                <button onClick={this.getUsers}>getUsers</button>
                 {this.props.users.map(el =>
                     <div key={el.id}>
                     <span>
