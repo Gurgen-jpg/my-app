@@ -4,7 +4,7 @@ import s from './users.module.css'
 import {UsersPagePropsType} from "./UsersContainer";
 import {UsersResponseType} from "../redux/users-reducer";
 
-class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseType>{
+class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseType> {
 
     //  Конструктор можно не писать, НО пусть БУДЕТ))
     constructor(props: UsersPagePropsType) {
@@ -13,15 +13,39 @@ class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseTy
 
     componentDidMount() {
         axios
-            .get('https://social-network.samuraijs.com/api/1.0/users')
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then((response: AxiosResponse<UsersResponseType>) => {
+                this.props.setUsers(response.data.items)
+                this.props.setTotalUsersCount(response.data.totalCount)
+            })
+    }
+
+    onPageChanged = (p: number) => {
+        this.props.getPage(p)
+        axios
+            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then((response: AxiosResponse<UsersResponseType>) => {
                 this.props.setUsers(response.data.items)
             })
     }
 
     render() {
+
+        let pagesCount = Math.ceil(this.props.totalUserCount / this.props.pageSize)
+        let pages = [];
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+
         return (
             <div className={s.wrapper}>
+                <div>
+                    {
+            pages.map(p => {
+                return <span className={this.props.currentPage === p ? s.pageNumber : ''}
+                             onClick={()=> this.onPageChanged(p)}>{p}</span> })
+                    }
+                </div>
                 {this.props.users.map(el =>
                     <div key={el.id}>
                     <span>
@@ -54,4 +78,5 @@ class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseTy
         );
     }
 }
+
 export default UsersClassComp;

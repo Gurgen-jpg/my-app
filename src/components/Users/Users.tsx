@@ -5,7 +5,6 @@ import {UsersPagePropsType} from "./UsersContainer";
 import {UsersResponseType} from "../redux/users-reducer";
 
 export const Users = (props: UsersPagePropsType) => {
-
     const getUsers = () => {
         if (props.users.length === 0) {
             axios
@@ -17,9 +16,9 @@ export const Users = (props: UsersPagePropsType) => {
         }
     }
     return (
-
-
         <div className={s.wrapper}>
+
+
             <button onClick={getUsers}>getUsers</button>
             {props.users.map(el =>
                 <div key={el.id}>
@@ -40,11 +39,6 @@ export const Users = (props: UsersPagePropsType) => {
                             <div>{el.name}</div>
                             <div>{el.status}</div>
                         </span>
-                        {/*
-                        <span>
-                            <div>{el.location.country}</div>
-                            <div>{el.location.city}</div>
-                        </span>*/}
                     </span>
 
                 </div>

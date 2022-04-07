@@ -1,4 +1,7 @@
 .wrapper {
 
 }
+.pageNumber {
+    font-weight: bold;
+}
 .wrapper img {width: 150px; height: 150px;}
