@@ -65,11 +65,6 @@ class UsersClassComp extends React.Component<UsersPagePropsType, UsersResponseTy
                             <div>{el.name}</div>
                             <div>{el.status}</div>
                         </span>
-                            {/*
-                        <span>
-                            <div>{el.location.country}</div>
-                            <div>{el.location.city}</div>
-                        </span>*/}
                     </span>
 
                     </div>

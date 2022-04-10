@@ -4,7 +4,7 @@ import {AddNewMessage, dialogsReducer, UpdateNewMessage} from "./dialogs-reducer
 import {
     FollowACType,
     SetPageACType,
-    setTotalUsersCountAC, SetTotalUsersCountACType,
+    SetTotalUsersCountACType,
     SetUsersACType,
     UnFollowACType,
     usersReducer

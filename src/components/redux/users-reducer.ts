@@ -49,18 +49,14 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         }
         case SET_USERS:
             return {
-                ...state, users: [...state.users, ...action.payload.users]
-            }
-        case SET_USERS:
-            return {
-                ...state, users:action.payload.users
+                ...state, users: action.payload.users
             }
         case SET_PAGE: {
             return {
                 ...state, currentPage: action.payload.currentPage
             }
         }
-        case "SET-TOTAL-USERS-COUNT": {
+        case SET_TOTAL_USERS_COUNT: {
             return  {
                 ...state, totalUserCount: action.payload.totalUserCount
             }
@@ -94,7 +90,7 @@ export type SetPageACType = {
 }
 export type SetTotalUsersCountACType = {type: 'SET-TOTAL-USERS-COUNT', payload: {totalUserCount:number}}
 
-export const setTotalUsersCountAC = (totalUserCount: number) => ({type:SET_TOTAL_USERS_COUNT, totalUserCount})
+export const setTotalUsersCountAC = (totalUserCount: number) => ({type:SET_TOTAL_USERS_COUNT, payload: {totalUserCount}})
 export const setPageAC = (currentPage: number) =>   ({
     type: SET_PAGE,
     payload:
