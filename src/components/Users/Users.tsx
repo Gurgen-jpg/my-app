@@ -1,25 +1,34 @@
-import axios, {AxiosResponse} from 'axios';
 import React from 'react';
-import s from './users.module.css'
-import {UsersPagePropsType} from "./UsersContainer";
-import {UsersResponseType} from "../redux/users-reducer";
+import s from "./users.module.css";
+import {UType} from "../redux/users-reducer";
 
-export const Users = (props: UsersPagePropsType) => {
-    const getUsers = () => {
-        if (props.users.length === 0) {
-            axios
-                .get('https://social-network.samuraijs.com/api/1.0/users')
-                .then((response: AxiosResponse<UsersResponseType>) => {
-                    props.setUsers(response.data.items)
-                })
 
-        }
+export type UsersPageType = {
+    users: Array<UType>,
+    pageSize: number,
+    totalUserCount: number,
+    currentPage: number
+    follow: (userID: number) => void
+    unFollow: (userID: number) => void
+    onPageChanged: (p: number) => void
+}
+
+
+export const Users = (props: UsersPageType) => {
+    let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
     return (
         <div className={s.wrapper}>
-
-
-            <button onClick={getUsers}>getUsers</button>
+            <div>
+                {
+                    pages.map(p => {
+                        return <span className={props.currentPage === p ? s.pageNumber : ''}
+                                     onClick={()=> props.onPageChanged(p)}>{p}</span> })
+                }
+            </div>
             {props.users.map(el =>
                 <div key={el.id}>
                     <span>
@@ -44,7 +53,5 @@ export const Users = (props: UsersPagePropsType) => {
                 </div>
             )}
         </div>
-
     );
 };
-
