@@ -87,7 +87,7 @@ let mapStateToProps = (state: AppStateType): InitialStateType => {
 
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchType => {
+/*let mapDispatchToProps = (dispatch: Dispatch): MapDispatchType => {
     return {
         follow: (userID: number) => {
             dispatch(followAC(userID))
@@ -108,6 +108,14 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchType => {
             dispatch(toggleIsFetchingAC(isFetching))
         }
     }
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {
+        follow: followAC,
+        unFollow: unFollowAC,
+        setUsers: setUsersAC,
+        getPage: setPageAC,
+        setTotalUsersCount: setTotalUsersCountAC,
+        toggleIsFetching: toggleIsFetchingAC
+    }
+)(UsersContainer);
