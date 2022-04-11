@@ -17,9 +17,21 @@ export type UsersPageType = {
 export const Users = (props: UsersPageType) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
     let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
+    /*for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
+    }*/
+
+    if (props.currentPage > 10 && pagesCount - props.currentPage > 10) {
+        for (let i = props.currentPage - 10; i<= props.currentPage + 10; i++)
+            pages.push(i)
+    } else if (0 < props.currentPage && props.currentPage<=10) {
+        for (let i = 1; i<=20; i++)
+            pages.push(i)
+    } else if (pagesCount - props.currentPage <= 10 ) {
+        for (let i = pagesCount - 20; i<=pagesCount; i++)
+            pages.push(i)
     }
+
     return (
         <div className={s.wrapper}>
             <div>

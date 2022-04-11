@@ -2,7 +2,7 @@ import { createStore, combineReducers} from "redux"
 import {AddPostActionType, profileReducer, UpdateNewPostTextActonType} from "./profile-reudcer";
 import {AddNewMessage, dialogsReducer, UpdateNewMessage} from "./dialogs-reducer";
 import {
-    FollowACType,
+    FollowACType, IsFetchingACType,
     SetPageACType,
     SetTotalUsersCountACType,
     SetUsersACType,
@@ -13,7 +13,7 @@ import {
 
 export type AppStateType = ReturnType<typeof rootReducer> // rootReducer возвращает стейт, я беру ТИП СТЕЙТА
 export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetPageACType
-| FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType
+| FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | IsFetchingACType
 
 let rootReducer = combineReducers( {
     profilePage: profileReducer,
