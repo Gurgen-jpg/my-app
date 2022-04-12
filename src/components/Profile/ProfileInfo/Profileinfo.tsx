@@ -1,16 +1,35 @@
 import React from "react";
 
 import s from './ProfileInfo.module.css';
+import {PType} from "../../redux/profile-reudcer";
+import {Preloader} from "../../Preloader/Preloader";
+import prof from '../../../assets/images/prof.jpg';
+type ProfileInfoType = {
+    profile: null | PType
+}
 
-const ProfileInfo = () => {
+
+const ProfileInfo = (props: ProfileInfoType) => {
+    /*if (!props.profile) {
+        return <Preloader/>
+    }*/
     return (
         <div>
-            <div>
-                <img src={'https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300'}/>
+
+            {props.profile ?  <img src={props.profile?.photos.large
+                ? props.profile.photos.large
+                : 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/> : <img src={prof}/> }
+
+
+
+           {/* <div>
+                <img src={prof}/>
             </div>
             <div className={s.discriptionBlock}>
-                ava + discription
-            </div>
+                <img src={props.profile?.photos.large ? props.profile.photos.large : 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
+                name : {props.profile?.fullName}
+
+            </div>*/}
         </div>
 
     )

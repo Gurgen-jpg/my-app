@@ -1,6 +1,7 @@
 import React from 'react';
 import s from "./users.module.css";
 import {UType} from "../redux/users-reducer";
+import {NavLink} from "react-router-dom";
 
 
 export type UsersPageType = {
@@ -45,7 +46,11 @@ export const Users = (props: UsersPageType) => {
                 <div key={el.id}>
                     <span>
                         <div>
-                            <img src={el?.photos?.large || 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
+
+                            <NavLink to='/profile'>
+                                <img
+                                src={el?.photos?.large || 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
+                            </NavLink>
                         </div>
                         <div>
                             {
