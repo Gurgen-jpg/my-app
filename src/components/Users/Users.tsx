@@ -47,7 +47,7 @@ export const Users = (props: UsersPageType) => {
                     <span>
                         <div>
 
-                            <NavLink to='/profile'>
+                            <NavLink to={`/profile/${el.id}`}>
                                 <img
                                 src={el?.photos?.large || 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
                             </NavLink>

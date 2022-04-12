@@ -6,13 +6,13 @@ export type PostType = {
     likesCount: number
 }
 export type InitialStateType = {
-    profile: null | PType
+    profile: PType
     posts: PostType[]
     newPostText: string
 }
 export type ProfileResponse = PType;
 
-export type PType = {
+export type PType = null | {
     userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: null | string
@@ -63,10 +63,12 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
             return {
                 ...state, newPostText: action.newText
             }
-        case SET_USER_PROFILE:
+        case SET_USER_PROFILE: {
             return  {
                 ...state, profile: action.payload.profile
             }
+        }
+
         default:
             return state
     }
@@ -96,6 +98,6 @@ export type SetUsersProfileACType = {
 export const setUsersProfileAC = (profile: PType) => {
     return ({
         type: SET_USER_PROFILE,
-        profile
+        payload: {profile}
     })
 }

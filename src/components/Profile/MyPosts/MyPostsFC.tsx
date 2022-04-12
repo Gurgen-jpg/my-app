@@ -2,12 +2,19 @@ import s from "./MyPosts.module.css";
 import React from "react";
 import Post from "./Post/Post";
 
-import {MyPostsPropsType} from "../MyPostsContainer";
+import {useDispatch, useSelector} from "react-redux";
+import {addPostActionCreator, onPostOnchangeActionCreator, PostType} from "../../redux/profile-reudcer";
+import {AppStateType} from "../../redux/reduxStore";
 
-export function MyPosts(props:MyPostsPropsType) {
+
+export function MyPosts() {
+    let posts = useSelector<AppStateType, PostType[]>(state => state.profilePage.posts)
+    let newPosts = useSelector<AppStateType, string>(state => state.profilePage.newPostText)
+
+
 
     let myPostsItem =
-        props.posts.map((p, id) =>
+        posts.map((p, id) =>
             <Post
                 key={id}
                 message={p.message}
@@ -16,16 +23,15 @@ export function MyPosts(props:MyPostsPropsType) {
     //добавляю ссылку на объект
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
-
+    const dispatch = useDispatch()
     //функция кнопки добавить пост
 
     const addPost = () => {
-        props.addPost()
+        dispatch(addPostActionCreator())
     }
 // Стейт получает каждое значение
     const onPostOnchange = () => {
-        let text = newPostElement.current!.value;
-        props.updateNewPostText(text)
+        dispatch(onPostOnchangeActionCreator(newPostElement.current!.value))
     }
 
 
@@ -35,7 +41,7 @@ export function MyPosts(props:MyPostsPropsType) {
             <div>
                 <div>
                     <textarea ref={newPostElement}
-                              value={props.newPostText}
+                              value={newPosts}
                               onChange={onPostOnchange}
                     /> {/*// привязка ссылки*/}
                 </div>
@@ -50,4 +56,3 @@ export function MyPosts(props:MyPostsPropsType) {
         </div>
     )
 }
-
