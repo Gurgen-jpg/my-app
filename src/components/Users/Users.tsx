@@ -18,9 +18,6 @@ export type UsersPageType = {
 export const Users = (props: UsersPageType) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
     let pages = [];
-    /*for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }*/
 
     if (props.currentPage > 10 && pagesCount - props.currentPage > 10) {
         for (let i = props.currentPage - 10; i<= props.currentPage + 10; i++)

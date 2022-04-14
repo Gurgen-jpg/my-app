@@ -9,16 +9,18 @@ import {
     UnFollowACType,
     usersReducer
 } from "./users-reducer";
+import {authReducer, SetUserDateACType} from "./authReducer/auth-reducer";
 
 
 export type AppStateType = ReturnType<typeof rootReducer> // rootReducer возвращает стейт, я беру ТИП СТЕЙТА
 export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetPageACType
 | FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | IsFetchingACType | SetUsersProfileACType
-
+| SetUserDateACType
 let rootReducer = combineReducers( {
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    auth: authReducer,
 })
 
 export let store = createStore(rootReducer)
