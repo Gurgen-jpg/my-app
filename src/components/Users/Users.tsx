@@ -1,7 +1,8 @@
 import React from 'react';
 import s from "./users.module.css";
-import {UType} from "../redux/users-reducer";
+import {UsersResponseType, UType} from "../redux/users-reducer";
 import {NavLink} from "react-router-dom";
+import axios, {AxiosResponse} from "axios";
 
 
 export type UsersPageType = {
@@ -16,27 +17,28 @@ export type UsersPageType = {
 
 
 export const Users = (props: UsersPageType) => {
+    // PAGINATION------------------------------------------------------------------
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
     let pages = [];
-
     if (props.currentPage > 10 && pagesCount - props.currentPage > 10) {
-        for (let i = props.currentPage - 10; i<= props.currentPage + 10; i++)
+        for (let i = props.currentPage - 10; i <= props.currentPage + 10; i++)
             pages.push(i)
-    } else if (0 < props.currentPage && props.currentPage<=10) {
-        for (let i = 1; i<=20; i++)
+    } else if (0 < props.currentPage && props.currentPage <= 10) {
+        for (let i = 1; i <= 20; i++)
             pages.push(i)
-    } else if (pagesCount - props.currentPage <= 10 ) {
-        for (let i = pagesCount - 20; i<=pagesCount; i++)
+    } else if (pagesCount - props.currentPage <= 10) {
+        for (let i = pagesCount - 20; i <= pagesCount; i++)
             pages.push(i)
     }
-
+    //------------------------------------------------------------------------------
     return (
         <div className={s.wrapper}>
             <div>
                 {
                     pages.map(p => {
                         return <span className={props.currentPage === p ? s.pageNumber : ''}
-                                     onClick={()=> props.onPageChanged(p)}>{p}</span> })
+                                     onClick={() => props.onPageChanged(p)}>{p}</span>
+                    })
                 }
             </div>
             {props.users.map(el =>
@@ -46,14 +48,46 @@ export const Users = (props: UsersPageType) => {
 
                             <NavLink to={`/profile/${el.id}`}>
                                 <img
-                                src={el?.photos?.large || 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
+                                    src={el?.photos?.large || 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
                             </NavLink>
                         </div>
                         <div>
                             {
                                 el.followed
-                                    ? <button onClick={() => props.unFollow(el.id)}>unFollow</button>
-                                    : <button onClick={() => props.follow(el.id)}>follow</button>
+                                    ? <button onClick={() => {
+                                        axios
+                                            .delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,
+                                                {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        'API-KEY' : '5b57e857-72cc-4cd7-9bd6-09b2eef89c9a'
+                                                    }
+                                                })
+                                            .then((response: AxiosResponse<any>) => {
+                                                if (response.data.resultCode === 0) {
+                                                    props.unFollow(el.id)
+                                                }
+                                            })
+                                    }}
+
+                                    >unFollow </button>
+
+
+                                    : <button onClick={() => {
+                                        axios
+                                            .post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, {},
+                                                {withCredentials: true,
+                                                    headers: {
+                                                        'API-KEY' : '5b57e857-72cc-4cd7-9bd6-09b2eef89c9a'
+                                                    }
+                                                })
+                                            .then((response: AxiosResponse<any>) => {
+                                                if (response.data.resultCode === 0) {
+                                                    props.follow(el.id)
+                                                }
+                                            })
+                                    }}
+                                    >follow</button>
                             }
                         </div>
                     </span>

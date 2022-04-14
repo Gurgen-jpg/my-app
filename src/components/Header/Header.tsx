@@ -3,7 +3,7 @@ import s from './Header.module.css';
 import {NavLink} from "react-router-dom";
 import axios, {AxiosResponse} from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {AuthType, InitialStateType, setUserDateAC} from "../redux/authReducer/auth-reducer";
+import { InitialStateType, setUserDateAC} from "../redux/authReducer/auth-reducer";
 import {AppStateType} from "../redux/reduxStore";
 
 

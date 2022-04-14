@@ -6,7 +6,6 @@ import s from "./Profile.module.css";
 import axios, {AxiosResponse} from "axios";
 import { connect } from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
-import {Profile} from "./Profile";
 export type ProfilePagePropsType = InitialStateType & MapDispatchType
 type MapDispatchType = {
     setUsersProfile: (profile: PType) => void

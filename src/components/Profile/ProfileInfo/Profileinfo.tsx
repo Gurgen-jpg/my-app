@@ -9,11 +9,8 @@ type ProfileInfoType = {
 
 
 const ProfileInfo = (props: ProfileInfoType) => {
-    debugger
-
     return (
         <div>
-
             {props.profile
                 ? <div className={s.discriptionBlock}><img src={props.profile?.photos.large
                     ? props.profile.photos.large
@@ -25,15 +22,6 @@ const ProfileInfo = (props: ProfileInfoType) => {
                 <li>UserID: {props.profile?.userId}</li>
             </ul>
 
-
-            {/* <div>
-                <img src={prof}/>
-            </div>
-            <div className={s.discriptionBlock}>
-                <img src={props.profile?.photos.large ? props.profile.photos.large : 'https://upload.wikimedia.org/wikipedia/ru/4/4c/Neo2.jpg'}/>
-                name : {props.profile?.fullName}
-
-            </div>*/}
         </div>
 
     )
