@@ -7,21 +7,19 @@ import axios, {AxiosResponse} from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 import {useParams} from "react-router-dom";
+import {getProfile} from "../Dal/api";
 
 
 export const Profile = () => {
 
     const dispatch = useDispatch()
     const {userId} = useParams()
-    // let userId = Number(params.userId)
-
 
     useEffect(()=> {
         if (userId) {
-            axios
-                .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-                .then((response: AxiosResponse<ProfileResponse>) => {
-                    dispatch(setUsersProfileAC(response.data))
+            getProfile(userId)
+                .then((data: ProfileResponse) => {
+                    dispatch(setUsersProfileAC(data))
                 })
         }
     }, [userId])

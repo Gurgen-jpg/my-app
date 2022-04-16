@@ -15,6 +15,7 @@ import axios, {AxiosResponse} from "axios";
 import {Users} from "./Users";
 import Rocket from './../../assets/images/Rocket.gif'
 import {Preloader} from "../Preloader/Preloader";
+import {getUsers} from "../Dal/api";
 
 
 type MapDispatchType = {
@@ -38,25 +39,22 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-                {withCredentials: true})
-            .then((response: AxiosResponse<UsersResponseType>) => {
+
+        getUsers(this.props.currentPage, this.props.pageSize)
+            .then((data: UsersResponseType) => {
                 this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
             })
     }
 
     onPageChanged = (p: number) => {
         this.props.toggleIsFetching(true)
         this.props.getPage(p)
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-                {withCredentials: true})
-            .then((response: AxiosResponse<UsersResponseType>) => {
+        getUsers(this.props.currentPage, this.props.pageSize)
+            .then((data: UsersResponseType) => {
                 this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(data.items)
             })
     }
 

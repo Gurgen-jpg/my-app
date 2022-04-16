@@ -5,19 +5,17 @@ import axios, {AxiosResponse} from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import { InitialStateType, setUserDateAC} from "../redux/authReducer/auth-reducer";
 import {AppStateType} from "../redux/reduxStore";
+import {getAuth} from "../Dal/api";
 
 
 const Header = () => {
     let dispatch = useDispatch();
 
     useEffect(() => {
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                withCredentials: true
-            })
-            .then((response: AxiosResponse<any>) => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setUserDateAC(response.data.data.id, response.data.data.email, response.data.data.login))
+       getAuth()
+            .then((data: any) => {
+                if (data.data.resultCode === 0) {
+                    dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
                 }
             })
 
