@@ -1,8 +1,9 @@
 import React from 'react';
 import s from "./users.module.css";
-import {UsersResponseType, UType} from "../redux/users-reducer";
+import {UType} from "../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 import axios, {AxiosResponse} from "axios";
+import {followAPI} from "../Dal/api";
 
 
 export type UsersPageType = {
@@ -55,32 +56,31 @@ export const Users = (props: UsersPageType) => {
                             {
                                 el.followed
                                     ? <button onClick={() => {
-                                        axios
+                                        /*axios
                                             .delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,
                                                 {
                                                     withCredentials: true,
                                                     headers: {
                                                         'API-KEY' : '5b57e857-72cc-4cd7-9bd6-09b2eef89c9a'
                                                     }
-                                                })
+                                                })*/
+                                        followAPI.getFollow(el.id)
                                             .then((response: AxiosResponse<any>) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.unFollow(el.id)
                                                 }
                                             })
                                     }}
-
                                     >unFollow </button>
-
-
                                     : <button onClick={() => {
-                                        axios
+                                       /* axios
                                             .post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, {},
                                                 {withCredentials: true,
                                                     headers: {
                                                         'API-KEY' : '5b57e857-72cc-4cd7-9bd6-09b2eef89c9a'
                                                     }
-                                                })
+                                                })*/
+                                        followAPI.getUnfollow(el.id)
                                             .then((response: AxiosResponse<any>) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.follow(el.id)

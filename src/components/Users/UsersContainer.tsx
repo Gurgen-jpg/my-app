@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect, Provider} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
-import {Dispatch} from "redux";
+
 import {
     followAC,
     InitialStateType,
@@ -11,11 +11,11 @@ import {
     unFollowAC, UsersResponseType,
     UType
 } from "../redux/users-reducer";
-import axios, {AxiosResponse} from "axios";
+
 import {Users} from "./Users";
-import Rocket from './../../assets/images/Rocket.gif'
+
 import {Preloader} from "../Preloader/Preloader";
-import {getUsers} from "../Dal/api";
+import {usersAPI} from "../Dal/api";
 
 
 type MapDispatchType = {
@@ -40,7 +40,7 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
     componentDidMount() {
         this.props.toggleIsFetching(true)
 
-        getUsers(this.props.currentPage, this.props.pageSize)
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then((data: UsersResponseType) => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(data.items)
@@ -51,7 +51,7 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
     onPageChanged = (p: number) => {
         this.props.toggleIsFetching(true)
         this.props.getPage(p)
-        getUsers(this.props.currentPage, this.props.pageSize)
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then((data: UsersResponseType) => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(data.items)
