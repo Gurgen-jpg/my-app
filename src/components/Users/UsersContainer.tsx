@@ -3,7 +3,7 @@ import {connect, Provider} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 
 import {
-    followAC,
+    followAC, followingInProgressAC,
     InitialStateType,
     setPageAC,
     setTotalUsersCountAC,
@@ -25,6 +25,7 @@ type MapDispatchType = {
     getPage: (currentPage: number) => void
     setTotalUsersCount: (totalUserCount: number) => void
     toggleIsFetching: (isFetching: boolean) => void
+    followingInProgress: (isFetching: boolean, userId: number) => void
 }
 export type UsersPagePropsType = InitialStateType & MapDispatchType
 
@@ -69,6 +70,9 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
                 currentPage={this.props.currentPage}
                 pageSize={this.props.pageSize}
                 totalUserCount={this.props.totalUserCount}
+                following={this.props.following}
+                followingInProgress={this.props.followingInProgress}
+
 
             />
         </>
@@ -84,31 +88,9 @@ let mapStateToProps = (state: AppStateType): InitialStateType => {
         currentPage: state.usersPage.currentPage,
         totalUserCount: state.usersPage.totalUserCount,
         isFetching: state.usersPage.isFetching,
-
+        following: state.usersPage.following,
     }
 }
-/*let mapDispatchToProps = (dispatch: Dispatch): MapDispatchType => {
-    return {
-        follow: (userID: number) => {
-            dispatch(followAC(userID))
-        },
-        unFollow: (userID: number) => {
-            dispatch(unFollowAC(userID))
-        },
-        setUsers: (users: Array<UType>) => {
-            dispatch(setUsersAC(users))
-        },
-        getPage: (currentPage: number) => {
-            dispatch((setPageAC(currentPage)))
-        },
-        setTotalUsersCount: (totalUserCount: number) => {
-            dispatch(setTotalUsersCountAC(totalUserCount))
-        },
-        toggleIsFetching: (isFetching: boolean) => {
-            dispatch(toggleIsFetchingAC(isFetching))
-        }
-    }
-}*/
 
 export default connect(mapStateToProps, {
         follow: followAC,
@@ -116,6 +98,8 @@ export default connect(mapStateToProps, {
         setUsers: setUsersAC,
         getPage: setPageAC,
         setTotalUsersCount: setTotalUsersCountAC,
-        toggleIsFetching: toggleIsFetchingAC
+        toggleIsFetching: toggleIsFetchingAC,
+    followingInProgress: followingInProgressAC,
+
     }
 )(UsersContainer);

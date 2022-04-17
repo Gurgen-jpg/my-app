@@ -31,7 +31,9 @@ const initialState = {
     totalUserCount: 0,
     currentPage: 1,
     isFetching: true,
+    following: [0]
 }
+
 export type InitialStateType = typeof initialState;
 
 
@@ -65,6 +67,13 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         case TOGGLE_IS_FETCHING: {
             return {
                 ...state, isFetching: action.payload.isFetching
+            }
+        }
+        case "FOLLOWING-IN-PROGRESS": {
+            return {
+                ...state, following: action.isFetching
+                    ? [...state.following, action.userId]
+                    : state.following.filter(id => id !== action.userId)
             }
         }
         default:
@@ -101,6 +110,8 @@ export type IsFetchingACType = {
     }
 }
 export type SetTotalUsersCountACType = { type: 'SET-TOTAL-USERS-COUNT', payload: { totalUserCount: number } }
+
+
 export const setTotalUsersCountAC = (totalUserCount: number) => ({
     type: SET_TOTAL_USERS_COUNT,
     payload: {totalUserCount}
@@ -126,3 +137,8 @@ export const toggleIsFetchingAC = (isFetching: boolean) => ({
         isFetching
     }
 })
+export const followingInProgressAC = (isFetching: boolean, userId: number) => ({
+    type: 'FOLLOWING-IN-PROGRESS',
+    isFetching,
+    userId} as const)
+export type followingInProgressACType = ReturnType<typeof followingInProgressAC>
