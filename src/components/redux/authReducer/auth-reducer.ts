@@ -2,37 +2,36 @@ import {ActionsTypes} from "../reduxStore";
 
 const SET_USER_DATE = 'SET-USER-DATE';
 // ТИПЫ
-export type AuthType = {
-    id: null | number
-    email: null | string
-    login: null | string
+export type ResponseAuthType = {
+    data: {
+        id: null | number
+        email: null | string
+        login: null | string
+    }
     resultCode: number
     /*(0 if opearation completed successfullt, other numbers - some error occured)*/
     messages: Array<string>
     /* is empty if resultCode is 0, contains error messages if resultCode is different from 0*/
 }
-export type InitialStateType = {
-    data: AuthType | null
-}
-export type AuthResponseType = /*AuthType &*/ {
-    data: {
 
+export type InitialStateType = {
+    data: {
         id: null | number
         email: null | string
         login: null | string
-
-        resultCode: number
-        /*(0 if opearation completed successfullt, other numbers - some error occured)*/
-        messages: Array<string>
-        /* is empty if resultCode is 0, contains error messages if resultCode is different from 0*/
     }
 }
+const initialState: InitialStateType =
+    {
+        data: {
+            id: null,
+            email: null,
+            login: null
+        }
+    }
 
 
-export const initialState: InitialStateType = {
-    data: null
-}
-export const authReducer = (state = initialState, action: ActionsTypes) => {
+export const authReducer = (state = initialState, action: ActionsTypes):InitialStateType => {
     switch (action.type) {
         case SET_USER_DATE:
             return {

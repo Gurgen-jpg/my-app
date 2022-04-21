@@ -1,7 +1,8 @@
 import axios, {AxiosResponse} from "axios";
 import {UsersResponseType} from "../redux/users-reducer";
-import {ProfileResponse, setUsersProfileAC} from "../redux/profile-reudcer";
-import {AuthResponseType} from "../redux/authReducer/auth-reducer";
+import {ProfileResponse} from "../redux/profile-reudcer";
+import {ResponseAuthType} from "../redux/authReducer/auth-reducer";
+
 
 const instance = axios.create({
     withCredentials: true,
@@ -47,8 +48,8 @@ export const authAPI = {
     getAuth() {
         return instance
             .get(`auth/me`)
-            .then((response: AxiosResponse<AuthResponseType>) => {
-                return response.data.data
+            .then((response: AxiosResponse<ResponseAuthType>) => {
+                return response.data
             })
     }
 }
