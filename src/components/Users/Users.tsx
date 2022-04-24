@@ -15,7 +15,7 @@ export type UsersPageType = {
     unFollow: (userID: number) => void
     onPageChanged: (p: number) => void
     following: Array<number>
-    followingInProgress: (isFetching: boolean, userId: number) => void
+/*    followingInProgress: (isFetching: boolean, userId: number) => void*/
 }
 
 
@@ -57,27 +57,11 @@ export const Users = (props: UsersPageType) => {
                             {
                                 el.followed
                                     ? <button disabled={props.following.some(id => id === el.id)} onClick={() => {
-
-                                        props.followingInProgress(true, el.id)
-                                        followAPI.getFollow(el.id)
-                                            .then((response: AxiosResponse<any>) => {
-                                                if (response.data.resultCode === 0) {
-                                                    props.unFollow(el.id)
-                                                }
-                                                props.followingInProgress(false, el.id)
-                                            })
+                                        props.unFollow(el.id)
                                     }}
                                     >unFollow </button>
                                     : <button disabled={props.following.some(id => id === el.id)} onClick={() => {
-
-                                        props.followingInProgress(true, el.id)
-                                        followAPI.getUnfollow(el.id)
-                                            .then((response: AxiosResponse<any>) => {
-                                                if (response.data.resultCode === 0) {
-                                                    props.follow(el.id)
-                                                }
-                                                props.followingInProgress(false, el.id)
-                                            })
+                                        props.follow(el.id)
                                     }}
                                     >follow</button>
                             }

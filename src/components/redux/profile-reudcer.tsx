@@ -1,4 +1,6 @@
 import {ActionsTypes} from "./reduxStore";
+import {Dispatch} from "redux";
+import {profileAPI} from "../Dal/api";
 
 export type PostType = {
     id: number
@@ -100,4 +102,15 @@ export const setUsersProfileAC = (profile: PType) => {
         type: SET_USER_PROFILE,
         payload: {profile}
     })
+}
+
+export const getProfileThunk = (userId: string) => {
+    return (dispatch: Dispatch) => {
+
+            profileAPI.getProfile(userId)
+                .then((data: ProfileResponse) => {
+                    dispatch(setUsersProfileAC(data))
+                })
+
+    }
 }

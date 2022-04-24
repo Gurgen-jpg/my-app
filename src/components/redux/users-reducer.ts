@@ -1,7 +1,8 @@
 import {ActionsTypes} from "./reduxStore";
-import {usersAPI} from "../Dal/api";
+import {followAPI, usersAPI} from "../Dal/api";
 import {useDispatch} from "react-redux";
 import {Dispatch} from "redux";
+import {AxiosResponse} from "axios";
 
 const FOLLOW = 'FOLLOW';
 const UN_FOLLOW = 'UN-FOLLOW';
@@ -171,4 +172,30 @@ export const changePageThunkC = (p: number, pageSize: number) => {
               dispatch(setUsersAC(data.items))
           })
   }
+}
+export const unFollowThunkC = (userId: number) => {
+   return (dispatch: Dispatch) => {
+       dispatch(followingInProgressAC(true, userId))
+
+       followAPI.getUnfollow(userId)
+           .then((response: AxiosResponse<any>) => {
+               if (response.data.resultCode === 0) {
+                   dispatch(unFollowAC(userId))
+               }
+               dispatch(followingInProgressAC(false, userId))
+           })
+    }
+}
+export const followThunkC = (userId: number) => {
+   return (dispatch: Dispatch) => {
+       dispatch(followingInProgressAC(true, userId))
+
+       followAPI.getFollow(userId)
+           .then((response: AxiosResponse<any>) => {
+               if (response.data.resultCode === 0) {
+                   dispatch(followAC(userId))
+               }
+               dispatch(followingInProgressAC(false, userId))
+           })
+    }
 }

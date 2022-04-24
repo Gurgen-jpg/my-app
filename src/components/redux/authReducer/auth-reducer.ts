@@ -1,4 +1,6 @@
 import {ActionsTypes} from "../reduxStore";
+import {Dispatch} from "redux";
+import {authAPI} from "../../Dal/api";
 
 const SET_USER_DATE = 'SET-USER-DATE';
 // ТИПЫ
@@ -59,3 +61,14 @@ export const setUserDateAC = (id: number | null, email: string | null, login: st
         login,
     }
 })
+
+export const setAuthThunkC = () => {
+  return (dispatch: Dispatch) => {
+      ( authAPI.getAuth())
+          .then((data:ResponseAuthType ) => {
+              if (data.resultCode === 0) {
+                  dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
+              }
+          })
+  }
+}

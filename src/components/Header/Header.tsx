@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import s from './Header.module.css';
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {InitialStateType, ResponseAuthType, setUserDateAC} from "../redux/authReducer/auth-reducer";
+import {InitialStateType, ResponseAuthType, setAuthThunkC, setUserDateAC} from "../redux/authReducer/auth-reducer";
 import {AppStateType} from "../redux/reduxStore";
 import {authAPI} from "../Dal/api";
 import axios, {AxiosResponse} from "axios";
@@ -13,25 +13,7 @@ const Header = () => {
     let dispatch = useDispatch();
 
     useEffect(() => {
-
-        /*axios
-            .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                withCredentials: true
-            })
-            .then((response:AxiosResponse<ResponseAuthType>) => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setUserDateAC(response.data.data.id, response.data.data.email,
-                        response.data.data.login))
-                }
-            })
-    }, [])*/
-
-       ( authAPI.getAuth())
-                .then((data:ResponseAuthType ) => {
-                    if (data.resultCode === 0) {
-                        dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
-                    }
-                })
+       dispatch(setAuthThunkC())
     }, [])
     let userData = useSelector<AppStateType, InitialStateType>(state => state.auth)
 

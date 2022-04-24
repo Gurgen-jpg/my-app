@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import s from './Profile.module.css';
 import ProfileInfo from "./ProfileInfo/Profileinfo";
-import {ProfileResponse, setUsersProfileAC} from "../redux/profile-reudcer";
+import {getProfileThunk, ProfileResponse, setUsersProfileAC} from "../redux/profile-reudcer";
 import {MyPosts} from "./MyPosts/MyPostsFC";
 
 import {useDispatch, useSelector} from "react-redux";
@@ -16,12 +16,8 @@ export const Profile = () => {
     const {userId} = useParams()
 
     useEffect(()=> {
-        if (userId) {
-            profileAPI.getProfile(userId)
-                .then((data: ProfileResponse) => {
-                    dispatch(setUsersProfileAC(data))
-                })
-        }
+        if (userId)
+            dispatch(getProfileThunk(userId))
     }, [userId])
     let profile = useSelector<AppStateType, ProfileResponse>(state => state.profilePage.profile)
     return (
