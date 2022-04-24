@@ -3,7 +3,8 @@ import {connect, Provider} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 
 import {
-    followAC, followingInProgressAC,
+    changePageThunkC,
+    followAC, followingInProgressAC, getUsersThunkC,
     InitialStateType,
     setPageAC,
     setTotalUsersCountAC,
@@ -26,6 +27,9 @@ type MapDispatchType = {
     setTotalUsersCount: (totalUserCount: number) => void
     toggleIsFetching: (isFetching: boolean) => void
     followingInProgress: (isFetching: boolean, userId: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number) => void
+    changePageThunk: (p: number, pageSize: number) => void
+
 }
 export type UsersPagePropsType = InitialStateType & MapDispatchType
 
@@ -39,24 +43,20 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
     }
 
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then((data: UsersResponseType) => {
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(data.items)
-                this.props.setTotalUsersCount(data.totalCount)
-            })
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (p: number) => {
-        this.props.toggleIsFetching(true)
+
+        this.props.changePageThunk(p, this.props.pageSize)
+
+/*        this.props.toggleIsFetching(true)
         this.props.getPage(p)
         usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then((data: UsersResponseType) => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(data.items)
-            })
+            })*/
     }
 
     render() {
@@ -99,7 +99,9 @@ export default connect(mapStateToProps, {
         getPage: setPageAC,
         setTotalUsersCount: setTotalUsersCountAC,
         toggleIsFetching: toggleIsFetchingAC,
-    followingInProgress: followingInProgressAC,
+        followingInProgress: followingInProgressAC,
+        getUsersThunk: getUsersThunkC,
+        changePageThunk: changePageThunkC,
 
     }
 )(UsersContainer);

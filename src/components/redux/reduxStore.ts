@@ -1,6 +1,7 @@
-import { createStore, combineReducers} from "redux"
+import { createStore, combineReducers, applyMiddleware} from "redux"
 import {AddPostActionType, profileReducer, SetUsersProfileACType, UpdateNewPostTextActonType} from "./profile-reudcer";
 import {AddNewMessage, dialogsReducer, UpdateNewMessage} from "./dialogs-reducer";
+import thunkMiddleware from 'redux-thunk'
 import {
     FollowACType, followingInProgressACType, IsFetchingACType,
     SetPageACType,
@@ -16,6 +17,7 @@ export type AppStateType = ReturnType<typeof rootReducer> // rootReducer воз�
 export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetPageACType
 | FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | IsFetchingACType | SetUsersProfileACType
 | SetUserDateACType | followingInProgressACType
+
 let rootReducer = combineReducers( {
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
@@ -23,7 +25,7 @@ let rootReducer = combineReducers( {
     auth: authReducer,
 })
 
-export let store = createStore(rootReducer)
+export let store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 //@ts-ignore
 window.store = store

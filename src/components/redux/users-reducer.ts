@@ -1,4 +1,7 @@
 import {ActionsTypes} from "./reduxStore";
+import {usersAPI} from "../Dal/api";
+import {useDispatch} from "react-redux";
+import {Dispatch} from "redux";
 
 const FOLLOW = 'FOLLOW';
 const UN_FOLLOW = 'UN-FOLLOW';
@@ -112,6 +115,7 @@ export type IsFetchingACType = {
 export type SetTotalUsersCountACType = { type: 'SET-TOTAL-USERS-COUNT', payload: { totalUserCount: number } }
 
 
+
 export const setTotalUsersCountAC = (totalUserCount: number) => ({
     type: SET_TOTAL_USERS_COUNT,
     payload: {totalUserCount}
@@ -142,3 +146,29 @@ export const followingInProgressAC = (isFetching: boolean, userId: number) => ({
     isFetching,
     userId} as const)
 export type followingInProgressACType = ReturnType<typeof followingInProgressAC>
+
+//THUNK
+
+export const getUsersThunkC = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleIsFetchingAC(true))
+
+        usersAPI.getUsers(currentPage, pageSize)
+            .then((data: UsersResponseType) => {
+                dispatch(toggleIsFetchingAC(false))
+                dispatch(setUsersAC(data.items))
+                dispatch(setTotalUsersCountAC(data.totalCount))
+            })
+    }
+}
+export const changePageThunkC = (p: number, pageSize: number) => {
+  return (dispatch: Dispatch) => {
+      dispatch(toggleIsFetchingAC(true))
+      dispatch(setPageAC(p))
+      usersAPI.getUsers(p, pageSize)
+          .then((data: UsersResponseType) => {
+              dispatch(toggleIsFetchingAC(false))
+              dispatch(setUsersAC(data.items))
+          })
+  }
+}
