@@ -6,21 +6,28 @@ import {MyPosts} from "./MyPosts/MyPostsFC";
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
-import {useParams} from "react-router-dom";
-import { profileAPI } from "../Dal/api";
+import {Navigate, useParams} from "react-router-dom";
+import {InitialStateType} from "../redux/authReducer/auth-reducer";
 
 
 export const Profile = () => {
 
     const dispatch = useDispatch()
     const {userId} = useParams()
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
     useEffect(()=> {
         if (userId)
             dispatch(getProfileThunk(userId))
     }, [userId])
     let profile = useSelector<AppStateType, ProfileResponse>(state => state.profilePage.profile)
+
+    if (!isAuth) {
+       return <Navigate replace to='/loginPage' />
+    }
+
     return (
+
         <div className={s.content}>
                 <ProfileInfo profile={profile}/>
                 <MyPosts />

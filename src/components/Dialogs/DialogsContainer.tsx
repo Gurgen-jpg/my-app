@@ -10,6 +10,7 @@ type mapStateToProps = InitialStateType
 type mapDispatchToProps = {
     onChange: (text: string) => void
     onClick: ()=>void
+    isAuth: boolean
 }
 export type DialogsPropsType = mapStateToProps & mapDispatchToProps
 
@@ -18,7 +19,8 @@ const mapStateToProps = (state: AppStateType) => {
     return {
         newMessageText: state.dialogsPage.newMessageText,
         dialogs: state.dialogsPage.dialogs,
-        messages: state.dialogsPage.messages
+        messages: state.dialogsPage.messages,
+        isAuth: state.auth.isAuth
     }
 }
 const mapDispatchToProps = (dispatch: Dispatch) => {

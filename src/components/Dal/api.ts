@@ -36,13 +36,10 @@ export const followAPI = {
     getUnfollow(id: number) {
         return instance
             .delete(`follow/${id}`)
-           /* .post(`follow/${id}`)*/
-
     },
     getFollow(id: number) {
         return instance
             .post(`follow/${id}`)
-            /*.delete(`follow/${id}`)*/
     }
 }
 

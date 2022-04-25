@@ -1,6 +1,7 @@
-import {ActionsTypes} from "./reduxStore";
+import {ActionsTypes, AppStateType} from "./reduxStore";
 import {Dispatch} from "redux";
 import {profileAPI} from "../Dal/api";
+import {ThunkAction} from "redux-thunk";
 
 export type PostType = {
     id: number
@@ -36,11 +37,6 @@ export type PType = null | {
 }
 
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const SET_USER_PROFILE = 'SET-USERS-PROFILE';
-
-
 let initialState: InitialStateType = {
     profile: null,
     posts: [
@@ -51,7 +47,7 @@ let initialState: InitialStateType = {
 }
 export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD-POST':
             let newPost = {
                 id: state.posts.at(-1)!.id + 1,
                 message: state.newPostText,
@@ -61,12 +57,12 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
             return {
                 ...state, posts: [...state.posts, newPost]
             }
-        case UPDATE_NEW_POST_TEXT:
+        case 'UPDATE-NEW-POST-TEXT':
             return {
                 ...state, newPostText: action.newText
             }
-        case SET_USER_PROFILE: {
-            return  {
+        case 'SET-USERS-PROFILE': {
+            return {
                 ...state, profile: action.payload.profile
             }
         }
@@ -79,7 +75,7 @@ export type AddPostActionType = {
     type: 'ADD-POST'
 }
 export let addPostActionCreator = (): AddPostActionType => {
-    return ({type: ADD_POST})
+    return ({type: 'ADD-POST'} as const)
 }
 export type UpdateNewPostTextActonType = {
     type: 'UPDATE-NEW-POST-TEXT'
@@ -87,9 +83,9 @@ export type UpdateNewPostTextActonType = {
 }
 export let onPostOnchangeActionCreator = (text: string): UpdateNewPostTextActonType => {
     return ({
-        type: UPDATE_NEW_POST_TEXT,
+        type: 'UPDATE-NEW-POST-TEXT',
         newText: text
-    })
+    } as const)
 }
 export type SetUsersProfileACType = {
     type: 'SET-USERS-PROFILE'
@@ -99,18 +95,17 @@ export type SetUsersProfileACType = {
 }
 export const setUsersProfileAC = (profile: PType) => {
     return ({
-        type: SET_USER_PROFILE,
+        type: 'SET-USERS-PROFILE',
         payload: {profile}
-    })
+    } as const)
 }
 
-export const getProfileThunk = (userId: string) => {
-    return (dispatch: Dispatch) => {
+export const getProfileThunk = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch, getState) => {
 
-            profileAPI.getProfile(userId)
-                .then((data: ProfileResponse) => {
-                    dispatch(setUsersProfileAC(data))
-                })
+        let data = await profileAPI.getProfile(userId)
+        dispatch(setUsersProfileAC(data))
+
 
     }
 }

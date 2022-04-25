@@ -1,6 +1,7 @@
-import {ActionsTypes} from "../reduxStore";
+import {ActionsTypes, AppStateType} from "../reduxStore";
 import {Dispatch} from "redux";
 import {authAPI} from "../../Dal/api";
+import {ThunkAction} from "redux-thunk";
 
 const SET_USER_DATE = 'SET-USER-DATE';
 // ТИПЫ
@@ -22,53 +23,52 @@ export type InitialStateType = {
         email: null | string
         login: null | string
     }
+    isAuth: boolean
 }
-const initialState: InitialStateType =
-    {
-        data: {
-            id: null,
-            email: null,
-            login: null
-        }
-    }
+const initialState: InitialStateType = {
+    data: {
+        id: null,
+        email: null,
+        login: null
+    },
+    isAuth: false
+}
 
 
-export const authReducer = (state = initialState, action: ActionsTypes):InitialStateType => {
+export const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case SET_USER_DATE:
+        case 'SET-USER-DATE':
             return {
-                ...state, data: action.data
+                ...state, data: action.data, isAuth: true
             }
         default:
             return state
     }
 }
 
-export type SetUserDateACType = {
-    type: 'SET-USER-DATE',
-    data: {
-        id: number | null
-        email: string | null
-        login: string | null
-    }
-}
-export const setUserDateAC = (id: number | null, email: string | null, login: string | null) => ({
-    type: SET_USER_DATE,
+export type AuthActionsType = SetUserDateACType
 
+export type SetUserDateACType = ReturnType<typeof setUserDateAC>
+
+export const setUserDateAC = (id: number | null, email: string | null, login: string | null) => ({
+    type: 'SET-USER-DATE',
     data: {
         id,
         email,
         login,
     }
-})
+} as const)
 
-export const setAuthThunkC = () => {
-  return (dispatch: Dispatch) => {
-      ( authAPI.getAuth())
-          .then((data:ResponseAuthType ) => {
-              if (data.resultCode === 0) {
-                  dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
-              }
-          })
-  }
+
+export const setAuthThunkC = (): ThunkAction<void , AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch , getState) => {
+        let data = await authAPI.getAuth()
+
+       /* (authAPI.getAuth())
+            .then((data: ResponseAuthType) => {*/
+                if (data.resultCode === 0) {
+                    dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
+                }
+            /*})*/
+    }
 }

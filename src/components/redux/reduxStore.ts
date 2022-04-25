@@ -3,20 +3,16 @@ import {AddPostActionType, profileReducer, SetUsersProfileACType, UpdateNewPostT
 import {AddNewMessage, dialogsReducer, UpdateNewMessage} from "./dialogs-reducer";
 import thunkMiddleware from 'redux-thunk'
 import {
-    FollowACType, followingInProgressACType, IsFetchingACType,
-    SetPageACType,
-    SetTotalUsersCountACType,
-    SetUsersACType,
-    UnFollowACType,
+    UserActionType,
+
     usersReducer
 } from "./users-reducer";
-import {authReducer, SetUserDateACType} from "./authReducer/auth-reducer";
+import {authReducer, AuthActionsType} from "./authReducer/auth-reducer";
 
 
 export type AppStateType = ReturnType<typeof rootReducer> // rootReducer возвращает стейт, я беру ТИП СТЕЙТА
-export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetPageACType
-| FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | IsFetchingACType | SetUsersProfileACType
-| SetUserDateACType | followingInProgressACType
+export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetUsersProfileACType
+| AuthActionsType | UserActionType
 
 let rootReducer = combineReducers( {
     profilePage: profileReducer,
