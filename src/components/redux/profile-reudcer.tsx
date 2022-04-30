@@ -102,10 +102,7 @@ export const setUsersProfileAC = (profile: PType) => {
 
 export const getProfileThunk = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
     return async (dispatch, getState) => {
-
         let data = await profileAPI.getProfile(userId)
         dispatch(setUsersProfileAC(data))
-
-
     }
 }

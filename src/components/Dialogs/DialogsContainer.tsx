@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 
 import {Dispatch} from "redux";
+import {WithAuthRedirect} from "../Hoc/WithAuthRedirect";
 
 type mapStateToProps = InitialStateType
 type mapDispatchToProps = {
@@ -32,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export const DialogsContainer = WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs))
 
 
 

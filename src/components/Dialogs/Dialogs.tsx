@@ -16,9 +16,9 @@ const Dialogs = (props: DialogsPropsType) => {
         props.onClick()
     }
 
-    if (!props.isAuth) {
+   /* if (!props.isAuth) {
         return <Navigate replace to='/loginPage' />
-    }
+    }*/
 
     return (
         <div className={s.dialogs}>

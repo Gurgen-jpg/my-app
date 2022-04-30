@@ -1,14 +1,12 @@
 import React, {useEffect} from "react";
 import s from './Profile.module.css';
 import ProfileInfo from "./ProfileInfo/Profileinfo";
-import {getProfileThunk, ProfileResponse, setUsersProfileAC} from "../redux/profile-reudcer";
+import {getProfileThunk, ProfileResponse} from "../redux/profile-reudcer";
 import {MyPosts} from "./MyPosts/MyPostsFC";
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 import {Navigate, useParams} from "react-router-dom";
-import {InitialStateType} from "../redux/authReducer/auth-reducer";
-
 
 export const Profile = () => {
 
@@ -34,3 +32,6 @@ export const Profile = () => {
         </div>
     )
 }
+
+
+
