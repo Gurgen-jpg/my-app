@@ -10,8 +10,12 @@ import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import {Profile} from "./components/Profile/Profile";
+
 import {LoginPage} from "./components/Login/LoginPage";
+import { Profile } from './components/Profile/Profile';
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
+
+
 
 
 
@@ -24,8 +28,8 @@ const App = () => {
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path='/profile' element={<Profile/>}/>
-                    <Route path='/profile/:userId' element={<Profile/>} />
+                    <Route path='/profile' element={<ProfileContainer/>}/>
+                    <Route path='/profile/:userId' element={<ProfileContainer/>} />
 
 
                     <Route element={<DialogsContainer/>} path='/dialogs/*'/>

@@ -1,53 +1,35 @@
 import React from 'react';
-import {connect, Provider} from "react-redux";
+import {connect} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 import {
     changePageThunkC,
-    followAC, followingInProgressAC, followThunkC, getUsersThunkC,
+    followThunkC, getUsersThunkC,
     InitialStateType,
-    setPageAC,
-    setTotalUsersCountAC,
-    setUsersAC, toggleIsFetchingAC,
-    unFollowAC, unFollowThunkC, UsersResponseType,
-    UType
+    unFollowThunkC, UsersResponseType,
 } from "../redux/users-reducer";
 import {Users} from "./Users";
 import {Preloader} from "../Preloader/Preloader";
 import {WithAuthRedirect} from "../Hoc/WithAuthRedirect";
 
-
-
 type MapDispatchType = {
     follow: (userID: number) => void
     unFollow: (userID: number) => void
-/*    setUsers: (users: Array<UType>) => void
-    getPage: (currentPage: number) => void
-    setTotalUsersCount: (totalUserCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-    followingInProgress: (isFetching: boolean, userId: number) => void*/
     getUsersThunk: (currentPage: number, pageSize: number) => void
     changePageThunk: (p: number, pageSize: number) => void
-
 }
 export type UsersPagePropsType = InitialStateType & MapDispatchType
-
-
 //Контейнер компонента КЛАССОВАЯ
 class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseType> {
-
     //  Конструктор можно не писать, НО пусть БУДЕТ))
     constructor(props: UsersPagePropsType) {
         super(props)
     }
-
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
-
     onPageChanged = (p: number) => {
         this.props.changePageThunk(p, this.props.pageSize)
     }
-
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
@@ -60,12 +42,8 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
                 pageSize={this.props.pageSize}
                 totalUserCount={this.props.totalUserCount}
                 following={this.props.following}
-        /*        followingInProgress={this.props.followingInProgress}*/
-
-
             />
         </>
-
     }
 }
 
@@ -80,15 +58,9 @@ let mapStateToProps = (state: AppStateType): InitialStateType => {
         following: state.usersPage.following,
     }
 }
-
 export default WithAuthRedirect(connect(mapStateToProps, {
         follow: followThunkC,
         unFollow: unFollowThunkC,
-/*        setUsers: setUsersAC,
-        getPage: setPageAC,
-        setTotalUsersCount: setTotalUsersCountAC,
-        toggleIsFetching: toggleIsFetchingAC,
-        followingInProgress: followingInProgressAC,*/
         getUsersThunk: getUsersThunkC,
         changePageThunk: changePageThunkC,
 
