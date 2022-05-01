@@ -10,6 +10,7 @@ import {
 import {Users} from "./Users";
 import {Preloader} from "../Preloader/Preloader";
 import {WithAuthRedirect} from "../Hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 type MapDispatchType = {
     follow: (userID: number) => void
@@ -58,11 +59,12 @@ let mapStateToProps = (state: AppStateType): InitialStateType => {
         following: state.usersPage.following,
     }
 }
-export default WithAuthRedirect(connect(mapStateToProps, {
+export default compose<React.ComponentType>(
+    WithAuthRedirect,
+    connect(mapStateToProps, {
         follow: followThunkC,
         unFollow: unFollowThunkC,
         getUsersThunk: getUsersThunkC,
         changePageThunk: changePageThunkC,
-
     }
-)(UsersContainer));
+))(UsersContainer);
