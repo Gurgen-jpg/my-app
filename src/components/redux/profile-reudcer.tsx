@@ -130,14 +130,12 @@ export const getProfileThunk = (userId: string): ThunkAction<Promise<void>, AppS
 export const getStatusThunk = (userId: string | undefined): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
     return async (dispatch, getState) => {
         let data = await profileAPI.getStatus(userId)
-        debugger
         dispatch(setStatusAC(data))
     }
 }
 export const updateStatusThunk = (status: string): ThunkAction < Promise<void>, AppStateType, unknown, ActionsTypes > => {
     return async (dispatch, getState) =>{
         let data = await profileAPI.updateStatus(status)
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         dispatch(setStatusAC(status))
     }
 }

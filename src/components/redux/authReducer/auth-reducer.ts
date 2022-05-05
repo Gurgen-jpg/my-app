@@ -63,12 +63,8 @@ export const setUserDateAC = (id: number | null, email: string | null, login: st
 export const setAuthThunkC = (): ThunkAction<void , AppStateType, unknown, ActionsTypes> => {
     return async (dispatch , getState) => {
         let data = await authAPI.getAuth()
-
-       /* (authAPI.getAuth())
-            .then((data: ResponseAuthType) => {*/
                 if (data.resultCode === 0) {
                     dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
                 }
-            /*})*/
     }
 }
