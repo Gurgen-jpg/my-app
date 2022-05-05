@@ -26,7 +26,8 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         profile: state.profilePage.profile,
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
+        newPostText: state.profilePage.newPostText,
+        status: state.profilePage.status
     }
 }
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {

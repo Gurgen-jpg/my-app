@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {UsersResponseType} from "../redux/users-reducer";
-import {ProfileResponse} from "../redux/profile-reudcer";
+import {ProfileResponse, ResponseStatusType, ResponseStatusUpdateType} from "../redux/profile-reudcer";
 import {ResponseAuthType} from "../redux/authReducer/auth-reducer";
 
 
@@ -29,6 +29,17 @@ export const profileAPI = {
             .then((response: AxiosResponse<ProfileResponse>) => {
                 return response.data
             })
+    },
+    getStatus(userId: string | undefined) {
+        return instance
+            .get(`profile/status/${userId}`)
+            .then(((response: AxiosResponse<ResponseStatusType>) => {
+                return response.data
+            }))
+    },
+    updateStatus(status: string) {
+        return instance
+            .put(`profile/status`, {status: status})
     }
 }
 

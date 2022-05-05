@@ -12,10 +12,17 @@ export type InitialStateType = {
     profile: PType
     posts: PostType[]
     newPostText: string
+    status: string
 }
-export type ProfileResponse = PType;
-
+export type ProfileResponse = PType ;
+export type ResponseStatusType = string;
+export type ResponseStatusUpdateType = {
+    resultCode: number
+    messages:string
+    data: string
+}
 export type PType = null | {
+
     userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: null | string
@@ -34,6 +41,8 @@ export type PType = null | {
         small: null | string
         large: null | string
     }
+    status: null
+
 }
 
 
@@ -43,7 +52,8 @@ let initialState: InitialStateType = {
         {id: 1, message: 'Hi, it`s my first post', likesCount: 15},
         {id: 2, message: '"Hi, how are you?"', likesCount: 20}
     ],
-    newPostText: ''
+    newPostText: '',
+    status: 'no status'
 }
 export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -66,7 +76,11 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
                 ...state, profile: action.payload.profile
             }
         }
-
+        case 'SET-STATUS': {
+            return {
+                ...state, status: action.status
+            }
+        }
         default:
             return state
     }
@@ -99,6 +113,13 @@ export const setUsersProfileAC = (profile: PType) => {
         payload: {profile}
     } as const)
 }
+export type setStatusACType = ReturnType<typeof setStatusAC>
+export const setStatusAC = (status: string) => {
+  return ({
+      type: 'SET-STATUS',
+      status: status
+  } as const)
+}
 
 export const getProfileThunk = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
     return async (dispatch, getState) => {
@@ -106,3 +127,18 @@ export const getProfileThunk = (userId: string): ThunkAction<Promise<void>, AppS
         dispatch(setUsersProfileAC(data))
     }
 }
+export const getStatusThunk = (userId: string | undefined): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch, getState) => {
+        let data = await profileAPI.getStatus(userId)
+        debugger
+        dispatch(setStatusAC(data))
+    }
+}
+export const updateStatusThunk = (status: string): ThunkAction < Promise<void>, AppStateType, unknown, ActionsTypes > => {
+    return async (dispatch, getState) =>{
+        let data = await profileAPI.updateStatus(status)
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        dispatch(setStatusAC(status))
+    }
+}
+

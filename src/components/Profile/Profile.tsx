@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import s from './Profile.module.css';
 import ProfileInfo from "./ProfileInfo/Profileinfo";
-import {getProfileThunk, ProfileResponse} from "../redux/profile-reudcer";
+import {getProfileThunk, getStatusThunk, ProfileResponse, PType, updateStatusThunk} from "../redux/profile-reudcer";
 import {MyPosts} from "./MyPosts/MyPostsFC";
 
 import {useDispatch, useSelector} from "react-redux";
@@ -13,22 +13,35 @@ export const Profile = () => {
     const dispatch = useDispatch()
     const {userId} = useParams()
     const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
-
-    useEffect(()=> {
-        if (userId)
-            dispatch(getProfileThunk(userId))
-    }, [userId])
+    const myId = useSelector<AppStateType, number | null>(state => state.auth?.data?.id)
     let profile = useSelector<AppStateType, ProfileResponse>(state => state.profilePage.profile)
 
+
+    useEffect(() => {
+        let id = userId;
+        if (!id) {
+            id = myId?.toString() || '2'
+        }
+        dispatch(getProfileThunk(id))
+        dispatch(getStatusThunk(id))
+    }, [])
+
+
+    const changeStatus = (newStatus: string) => {
+      dispatch(updateStatusThunk(newStatus))
+    }
+
+    let status = useSelector<AppStateType, string>(state => state.profilePage.status)
+
     if (!isAuth) {
-       return <Navigate replace to='/loginPage' />
+        return <Navigate replace to='/loginPage'/>
     }
 
     return (
 
         <div className={s.content}>
-                <ProfileInfo profile={profile}/>
-                <MyPosts />
+            <ProfileInfo profile={profile} status={status} changeStatus={changeStatus}/>
+            <MyPosts/>
         </div>
     )
 }
