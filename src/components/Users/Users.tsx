@@ -2,8 +2,7 @@ import React from 'react';
 import s from "./users.module.css";
 import {UType} from "../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import  {AxiosResponse} from "axios";
-import {followAPI} from "../Dal/api";
+
 
 
 export type UsersPageType = {
@@ -79,3 +78,9 @@ export const Users = (props: UsersPageType) => {
         </div>
     );
 };
+
+export const UsersSearchForm = () => {
+  return (
+      <div></div>
+  )
+}
