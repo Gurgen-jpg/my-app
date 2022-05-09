@@ -1,16 +1,14 @@
 import {ActionsTypes, AppStateType} from "./reduxStore";
 import {followAPI, usersAPI} from "../Dal/api";
-import {useDispatch} from "react-redux";
 import {Dispatch} from "redux";
-import {AxiosResponse} from "axios";
 import {ThunkAction} from "redux-thunk";
 
-const FOLLOW = 'FOLLOW';
+/*const FOLLOW = 'FOLLOW';
 const UN_FOLLOW = 'UN-FOLLOW';
 const SET_USERS = 'SET-USERS';
 const SET_PAGE = 'SET-PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT';
-const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';
+const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';*/
 
 export type UsersResponseType = {
     items: UType[]
@@ -36,8 +34,12 @@ const initialState = {
     totalUserCount: 0,
     currentPage: 1,
     isFetching: true,
-    following: [0]
+    following: [0],
+    filter: {
+        search: ''
+    },
 }
+export type FilterType = typeof initialState.filter;
 
 export type InitialStateType = typeof initialState;
 
@@ -81,42 +83,19 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
                     : state.following.filter(id => id !== action.userId)
             }
         }
+        case "SET-FILTER": {
+            return {
+                ...state, filter: action.payload
+            }
+        }
         default:
             return state
     }
 }
 
-/*export type FollowACType = {
-    type: 'FOLLOW'
-    payload: {
-        userID: number
-    }
-}
-export type UnFollowACType = {
-    type: 'UN-FOLLOW'
-    payload: {
-        userID: number
-    }
-}
-export type SetUsersACType = {
-    type: 'SET-USERS'
-    payload: {
-        users: Array<UType>
-    }
-}
-export type SetPageACType = {
-    type: 'SET-PAGE'
-    payload: { currentPage: number }
-}
-export type IsFetchingACType = {
-    type: 'TOGGLE-IS-FETCHING',
-    payload: {
-        isFetching: boolean
-    }
-}
-export type SetTotalUsersCountACType = { type: 'SET-TOTAL-USERS-COUNT', payload: { totalUserCount: number } }*/
+
 export type UserActionType = followingInProgressACType | setTotalUsersCountACType | setPageACType
-    | followACType | unFollowACType | setUsersACType | toggleIsFetchingAC
+    | followACType | unFollowACType | setUsersACType | toggleIsFetchingAC | setFilterACType
 
 export type followingInProgressACType = ReturnType<typeof followingInProgressAC>
 export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
@@ -125,6 +104,7 @@ export type followACType = ReturnType<typeof followAC>
 export type unFollowACType = ReturnType<typeof unFollowAC>
 export type setUsersACType = ReturnType<typeof setUsersAC>
 export type toggleIsFetchingAC = ReturnType<typeof toggleIsFetchingAC>
+export type setFilterACType = ReturnType<typeof setFilterAC>
 
 
 export const followingInProgressAC = (isFetching: boolean, userId: number) => ({
@@ -157,27 +137,31 @@ export const toggleIsFetchingAC = (isFetching: boolean) => ({
         isFetching
     }
 } as const)
-
+export const setFilterAC = (search: string) => ({
+    type: 'SET-FILTER',
+    payload: {search},
+} as const)
 
 //THUNK
 
-export const getUsersThunkC = (currentPage: number, pageSize: number): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
+export const getUsersThunkC = (currentPage: number, pageSize: number, search: string): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
     return async (dispatch, getState) => {
         dispatch(toggleIsFetchingAC(true))
-        let data = await usersAPI.getUsers(currentPage, pageSize)
-                dispatch(toggleIsFetchingAC(false))
-                dispatch(setUsersAC(data.items))
-                dispatch(setTotalUsersCountAC(data.totalCount))
+        dispatch(setFilterAC(search))
+        let data = await usersAPI.getUsers(currentPage, pageSize, search)
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalUsersCountAC(data.totalCount))
 
     }
 }
-export const changePageThunkC = (p: number, pageSize: number): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
+export const changePageThunkC = (p: number, pageSize: number, search: string): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
     return async (dispatch, getState) => {
         dispatch(toggleIsFetchingAC(true))
         dispatch(setPageAC(p))
-        let data = await usersAPI.getUsers(p, pageSize)
-                dispatch(toggleIsFetchingAC(false))
-                dispatch(setUsersAC(data.items))
+        let data = await usersAPI.getUsers(p, pageSize, search)
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUsersAC(data.items))
 
     }
 }
@@ -185,10 +169,10 @@ export const unFollowThunkC = (userId: number): ThunkAction<Promise<void>, AppSt
     return async (dispatch, getState) => {
         dispatch(followingInProgressAC(true, userId))
         let data = await followAPI.getUnfollow(userId)
-                if (data.data.resultCode === 0) {
-                    dispatch(unFollowAC(userId))
-                }
-                dispatch(followingInProgressAC(false, userId))
+        if (data.data.resultCode === 0) {
+            dispatch(unFollowAC(userId))
+        }
+        dispatch(followingInProgressAC(false, userId))
     }
 }
 export const followThunkC = (userId: number): ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes> => {
@@ -197,10 +181,10 @@ export const followThunkC = (userId: number): ThunkAction<Promise<void>, AppStat
 
         let data = await followAPI.getFollow(userId)
 
-                if (data.data.resultCode === 0) {
-                    dispatch(followAC(userId))
-                }
-                dispatch(followingInProgressAC(false, userId))
+        if (data.data.resultCode === 0) {
+            dispatch(followAC(userId))
+        }
+        dispatch(followingInProgressAC(false, userId))
 
     }
 }

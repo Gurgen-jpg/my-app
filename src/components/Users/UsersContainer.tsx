@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 import {
-    changePageThunkC,
+    changePageThunkC, FilterType,
     followThunkC, getUsersThunkC,
     InitialStateType,
     unFollowThunkC, UsersResponseType,
@@ -15,22 +15,31 @@ import {compose} from "redux";
 type MapDispatchType = {
     follow: (userID: number) => void
     unFollow: (userID: number) => void
-    getUsersThunk: (currentPage: number, pageSize: number) => void
-    changePageThunk: (p: number, pageSize: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number, search: string) => void
+    changePageThunk: (p: number, pageSize: number, search: string) => void
 }
 export type UsersPagePropsType = InitialStateType & MapDispatchType
+
 //Контейнер компонента КЛАССОВАЯ
 class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseType> {
     //  Конструктор можно не писать, НО пусть БУДЕТ))
     constructor(props: UsersPagePropsType) {
         super(props)
     }
+
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize, '')
     }
+
     onPageChanged = (p: number) => {
-        this.props.changePageThunk(p, this.props.pageSize)
+        const {pageSize, filter} = this.props
+        this.props.changePageThunk(p, pageSize, filter.search)
     }
+    onFilterChanged = (filter: FilterType) => {
+        const {pageSize, currentPage} = this.props
+        this.props.getUsersThunk(currentPage, pageSize, filter.search)
+    }
+
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
@@ -43,6 +52,7 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
                 pageSize={this.props.pageSize}
                 totalUserCount={this.props.totalUserCount}
                 following={this.props.following}
+                onFilterChanged={this.onFilterChanged}
             />
         </>
     }
@@ -57,14 +67,15 @@ let mapStateToProps = (state: AppStateType): InitialStateType => {
         totalUserCount: state.usersPage.totalUserCount,
         isFetching: state.usersPage.isFetching,
         following: state.usersPage.following,
+        filter: state.usersPage.filter
     }
 }
 export default compose<React.ComponentType>(
     WithAuthRedirect,
     connect(mapStateToProps, {
-        follow: followThunkC,
-        unFollow: unFollowThunkC,
-        getUsersThunk: getUsersThunkC,
-        changePageThunk: changePageThunkC,
-    }
-))(UsersContainer);
+            follow: followThunkC,
+            unFollow: unFollowThunkC,
+            getUsersThunk: getUsersThunkC,
+            changePageThunk: changePageThunkC,
+        }
+    ))(UsersContainer);

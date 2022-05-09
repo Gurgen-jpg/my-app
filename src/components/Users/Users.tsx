@@ -1,8 +1,9 @@
 import React from 'react';
 import s from "./users.module.css";
-import {UType} from "../redux/users-reducer";
+import {FilterType, InitialStateType, UType} from "../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-
+import { UsersSearchForm } from './UsersSearchForm';
+import {useSelector} from "react-redux";
 
 
 export type UsersPageType = {
@@ -14,7 +15,7 @@ export type UsersPageType = {
     unFollow: (userID: number) => void
     onPageChanged: (p: number) => void
     following: Array<number>
-/*    followingInProgress: (isFetching: boolean, userId: number) => void*/
+    onFilterChanged: (filter: FilterType) => void
 }
 
 
@@ -33,8 +34,13 @@ export const Users = (props: UsersPageType) => {
             pages.push(i)
     }
     //------------------------------------------------------------------------------
+
+
     return (
+
+
         <div className={s.wrapper}>
+            <UsersSearchForm onFilterChanged={props.onFilterChanged}/>
             <div>
                 {
                     pages.map(p => {
@@ -79,8 +85,4 @@ export const Users = (props: UsersPageType) => {
     );
 };
 
-export const UsersSearchForm = () => {
-  return (
-      <div></div>
-  )
-}
+
