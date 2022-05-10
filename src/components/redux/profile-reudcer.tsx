@@ -66,10 +66,6 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
             return {
                 ...state, posts: [...state.posts, newPost]
             }
-/*        case 'UPDATE-NEW-POST-TEXT':
-            return {
-                ...state, newPostText: action.newText
-            }*/
         case 'SET-USERS-PROFILE': {
             return {
                 ...state, profile: action.payload.profile

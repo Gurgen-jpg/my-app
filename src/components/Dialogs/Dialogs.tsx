@@ -1,21 +1,19 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./Dialogs/DialogItem";
 import Message from "./message/message";
+import * as Yup from "yup";
 import {DialogsPropsType} from "./DialogsContainer";
-import {Field, Form, Formik} from "formik";
-import {TextField} from "../Login/LoginPage";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget!.value
-        props.onChange(text)
-    }
     const onClickHandler = (newMessageText: string) => {
         props.onClick(newMessageText)
     }
-
+    const validate = Yup.object({
+        newMessageText: Yup.string().trim().min(1,'Message is empty').required('Message is empty')
+    })
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -26,26 +24,23 @@ const Dialogs = (props: DialogsPropsType) => {
 
                 <Formik
                     initialValues={{newMessageText: ''}}
-                    onSubmit={(values, actions)=>{
+                    onSubmit={(values, actions) => {
                         onClickHandler(values.newMessageText)
                         actions.resetForm({})
                     }}
+                    validationSchema={validate}
                 >
-                    {({values}) => {
+                    {(formik) => {
                         return <Form>
                             <label htmlFor={'newMessageText'}>new message</label>
                             <div>
-                                <Field name="newMessageText" placeholder="Message Text"/>
-                                <button type={'submit'}>Send message</button>
+                                <Field as={'textarea'} name="newMessageText" placeholder="Message Text"/>
+                                <button type={'submit'} disabled={!formik.isValid}>Send message</button>
+                                <ErrorMessage name={'newMessageText'}/>
                             </div>
                         </Form>
                     }}
                 </Formik>
-
-                {/*<textarea value={props.newMessageText} onChange={onChangeHandler}></textarea>
-                <button className={s.button} onClick={onClickHandler}>send</button>
-                */}
-
 
             </div>
         </div>

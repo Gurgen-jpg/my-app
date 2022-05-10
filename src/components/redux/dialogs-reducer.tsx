@@ -43,12 +43,6 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: A
                 messages: [...state.messages, newMessage]
             }
         }
-
-        /*case UPDATE_NEW_MESSAGE:
-            return {
-                ...state,
-                newMessageText: action.newMessageText
-            }*/
         default:
             return state
     }

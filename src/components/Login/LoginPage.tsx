@@ -3,8 +3,10 @@ import {Formik, Form} from "formik";
 import {ErrorMessage, useField} from "formik";
 import s from "./loginPage.module.css";
 import * as Yup from "yup";
-import {loginThunkC} from "../redux/authReducer/auth-reducer";
-import {useDispatch} from "react-redux";
+import {InitialStateType, loginThunkC} from "../redux/authReducer/auth-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../redux/reduxStore";
+
 
 type TextFieldType = {
     label: string
@@ -29,6 +31,7 @@ export const LoginForm = () => {
         password: Yup.string().min(6, 'Must be 6 characters or more').required('Required'),
     })
     const dispatch = useDispatch()
+    let messages = useSelector<AppStateType, string[]>(state => state.auth.errorMassages)
     return (
         <Formik initialValues={
             {
@@ -38,9 +41,10 @@ export const LoginForm = () => {
             }
         }
                 validationSchema={validate}
-                onSubmit={(values) => {
+                onSubmit={(values, actions) => {
                     const {login, password, saveForm} = values
                     dispatch(loginThunkC(login, password,saveForm))
+                    actions.resetForm({})
                 }}>
             {
                 ({values}) =>
@@ -49,10 +53,9 @@ export const LoginForm = () => {
                         <TextField label={'Password'} name={'password'} type={'password'}/>
                         <TextField label={'Remember me'} name={'saveForm'} type={'checkbox'}/>
                         <button type="submit">Submit</button>
+                        {messages[0]}
                     </Form>
             }
-
-
         </Formik>
     )
 };
@@ -62,6 +65,7 @@ export const LoginPage = () => {
         <div className={s.wrapper}>
             <h2>Login</h2>
             <LoginForm/>
+
         </div>
     );
 };

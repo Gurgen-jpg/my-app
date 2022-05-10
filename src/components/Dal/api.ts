@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {UsersResponseType} from "../redux/users-reducer";
-import {ProfileResponse, ResponseStatusType, ResponseStatusUpdateType} from "../redux/profile-reudcer";
+import {ProfileResponse, ResponseStatusType} from "../redux/profile-reudcer";
 import {ResponseAuthType} from "../redux/authReducer/auth-reducer";
 
 
@@ -65,6 +65,9 @@ export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
         return instance
             .post(`/auth/login`, {email, password, rememberMe})
+            .then((res: AxiosResponse<ResponseAuthType>)=> {
+                return res.data
+            })
     },
     logout(){
         return instance

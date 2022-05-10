@@ -34,7 +34,7 @@ export function MyPosts() {
         }*/
 
     const validate = Yup.object({
-        newPostText: Yup.string().min(1).required('Nothing to post, form is empty')
+        newPostText: Yup.string().min(1, 'Nothing to post, form is empty').required('Nothing to post, form is empty')
     })
     return (
         <div className={s.postsBlock}>
@@ -49,14 +49,15 @@ export function MyPosts() {
                         }}
                         validationSchema={validate}
                 >
-                    {({values, isValid}) => {
-
+                    {(formik) => {
                         return <Form>
                             <div>
-                                <div><label htmlFor={'newPostText'}>write new post</label></div>
-                                <Field type={'textarea'} name={'newPostText'} placeholder={'new post'}/>
-                                <ErrorMessage name={'newPostText'}/>
-                                <button type={'submit'}>Add post</button>
+                                <label htmlFor={'newPostText'}>write new post</label>
+                                <div>
+                                    <Field as={'textarea'} name='newPostText' placeholder='new post'/>
+                                    <button type={'submit'} disabled={!formik.isValid}>Add post</button>
+                                    <ErrorMessage name={'newPostText'}/>
+                                </div>
                             </div>
                         </Form>
                     }}
