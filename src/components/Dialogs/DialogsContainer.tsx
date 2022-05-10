@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialogs from "./Dialogs";
-import {addMessageCreator, InitialStateType, updateNewMessageText} from "../redux/dialogs-reducer";
+import {addMessageAC, InitialStateType} from "../redux/dialogs-reducer";
 import {connect} from "react-redux";
 import {AppStateType} from "../redux/reduxStore";
 
@@ -10,7 +10,7 @@ import {WithAuthRedirect} from "../Hoc/WithAuthRedirect";
 type mapStateToProps = InitialStateType
 type mapDispatchToProps = {
     onChange: (text: string) => void
-    onClick: ()=>void
+    onClick: (newMessageText: string)=>void
     isAuth: boolean
 }
 export type DialogsPropsType = mapStateToProps & mapDispatchToProps
@@ -26,9 +26,9 @@ const mapStateToProps = (state: AppStateType) => {
 }
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        onChange: (text: string) =>
-            dispatch(updateNewMessageText(text)),
-        onClick: ()=> dispatch(addMessageCreator())
+        /*onChange: (text: string) =>
+            dispatch(updateNewMessageText(text)),*/
+        onClick: (newMessageText: string)=> dispatch(addMessageAC(newMessageText))
     }
 
 }
@@ -36,7 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export const DialogsContainer = compose<React.ComponentType>(
     WithAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps)
-)(Dialogs)
+)(Dialogs) /*WithAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs))*/
 
 
 

@@ -1,5 +1,4 @@
 import {ActionsTypes, AppStateType} from "./reduxStore";
-import {Dispatch} from "redux";
 import {profileAPI} from "../Dal/api";
 import {ThunkAction} from "redux-thunk";
 
@@ -60,17 +59,17 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
         case 'ADD-POST':
             let newPost = {
                 id: state.posts.at(-1)!.id + 1,
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             };
             state.newPostText = ''
             return {
                 ...state, posts: [...state.posts, newPost]
             }
-        case 'UPDATE-NEW-POST-TEXT':
+/*        case 'UPDATE-NEW-POST-TEXT':
             return {
                 ...state, newPostText: action.newText
-            }
+            }*/
         case 'SET-USERS-PROFILE': {
             return {
                 ...state, profile: action.payload.profile
@@ -85,35 +84,26 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
             return state
     }
 }
-export type AddPostActionType = {
-    type: 'ADD-POST'
+export type AddPostACType = ReturnType<typeof addPostAC>
+/*export type UpdateNewPostTextActonType = ReturnType<typeof onPostOnchangeAC>*/
+export type SetUsersProfileACType = ReturnType<typeof setUsersProfileAC>
+export type setStatusACType = ReturnType<typeof setStatusAC>
+
+export let addPostAC = (newPostText: string) => {
+    return ({type: 'ADD-POST', newPostText} as const)
 }
-export let addPostActionCreator = (): AddPostActionType => {
-    return ({type: 'ADD-POST'} as const)
-}
-export type UpdateNewPostTextActonType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newText: string
-}
-export let onPostOnchangeActionCreator = (text: string): UpdateNewPostTextActonType => {
+/*export let onPostOnchangeAC = (text: string) => {
     return ({
         type: 'UPDATE-NEW-POST-TEXT',
         newText: text
     } as const)
-}
-export type SetUsersProfileACType = {
-    type: 'SET-USERS-PROFILE'
-    payload: {
-        profile: PType
-    }
-}
+}*/
 export const setUsersProfileAC = (profile: PType) => {
     return ({
         type: 'SET-USERS-PROFILE',
         payload: {profile}
     } as const)
 }
-export type setStatusACType = ReturnType<typeof setStatusAC>
 export const setStatusAC = (status: string) => {
   return ({
       type: 'SET-STATUS',

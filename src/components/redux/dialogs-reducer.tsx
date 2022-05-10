@@ -32,10 +32,10 @@ export type InitialStateType = typeof initialState
 
 export const dialogsReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_NEW_MESSAGE: {
+        case 'ADD-NEW-MESSAGE': {
             let newMessage = {
-                id: 5,
-                message: state.newMessageText
+                id: Date.now(),
+                message: action.newMessageText
             }
             state.newMessageText = ""
             return {
@@ -44,26 +44,26 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: A
             }
         }
 
-        case UPDATE_NEW_MESSAGE:
+        /*case UPDATE_NEW_MESSAGE:
             return {
                 ...state,
                 newMessageText: action.newMessageText
-            }
+            }*/
         default:
             return state
     }
 }
 
 
-export type AddNewMessage = {
-    type: 'ADD-NEW-MESSAGE'
-}
-export const addMessageCreator = (): AddNewMessage => {
+export type AddNewMessageType = ReturnType<typeof addMessageAC>
+export const addMessageAC = (newMessageText: string) => {
     return ({
-        type: ADD_NEW_MESSAGE
-    })
+        type: 'ADD-NEW-MESSAGE',
+        newMessageText
+    } as const)
 }
 
+/*
 export type UpdateNewMessage = {
     type: 'UPDATE-NEW-MESSAGE',
     newMessageText: string
@@ -73,4 +73,4 @@ export const updateNewMessageText = (text: string): UpdateNewMessage => {
         type: UPDATE_NEW_MESSAGE,
         newMessageText: text
     })
-}
+}*/

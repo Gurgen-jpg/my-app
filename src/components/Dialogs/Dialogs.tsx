@@ -3,6 +3,8 @@ import s from "./Dialogs.module.css";
 import DialogItem from "./Dialogs/DialogItem";
 import Message from "./message/message";
 import {DialogsPropsType} from "./DialogsContainer";
+import {Field, Form, Formik} from "formik";
+import {TextField} from "../Login/LoginPage";
 
 const Dialogs = (props: DialogsPropsType) => {
 
@@ -10,8 +12,8 @@ const Dialogs = (props: DialogsPropsType) => {
         let text = e.currentTarget!.value
         props.onChange(text)
     }
-    const onClickHandler = () => {
-        props.onClick()
+    const onClickHandler = (newMessageText: string) => {
+        props.onClick(newMessageText)
     }
 
     return (
@@ -21,8 +23,30 @@ const Dialogs = (props: DialogsPropsType) => {
             </div>
             <div className={s.messages}>
                 {props.messages.map(m => <Message message={m.message} id={m.id}/>)}
-                <textarea value={props.newMessageText} onChange={onChangeHandler}></textarea>
+
+                <Formik
+                    initialValues={{newMessageText: ''}}
+                    onSubmit={(values, actions)=>{
+                        onClickHandler(values.newMessageText)
+                        actions.resetForm({})
+                    }}
+                >
+                    {({values}) => {
+                        return <Form>
+                            <label htmlFor={'newMessageText'}>new message</label>
+                            <div>
+                                <Field name="newMessageText" placeholder="Message Text"/>
+                                <button type={'submit'}>Send message</button>
+                            </div>
+                        </Form>
+                    }}
+                </Formik>
+
+                {/*<textarea value={props.newMessageText} onChange={onChangeHandler}></textarea>
                 <button className={s.button} onClick={onClickHandler}>send</button>
+                */}
+
+
             </div>
         </div>
     )

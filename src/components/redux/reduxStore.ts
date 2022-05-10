@@ -1,11 +1,10 @@
 import { createStore, combineReducers, applyMiddleware} from "redux"
 import {
-    AddPostActionType,
-    profileReducer, setStatusAC, setStatusACType,
+    AddPostACType,
+    profileReducer, setStatusACType,
     SetUsersProfileACType,
-    UpdateNewPostTextActonType
 } from "./profile-reudcer";
-import {AddNewMessage, dialogsReducer, UpdateNewMessage} from "./dialogs-reducer";
+import {AddNewMessageType, dialogsReducer} from "./dialogs-reducer";
 import thunkMiddleware from 'redux-thunk'
 import {
     UserActionType,
@@ -16,8 +15,8 @@ import {authReducer, AuthActionsType} from "./authReducer/auth-reducer";
 
 
 export type AppStateType = ReturnType<typeof rootReducer> // rootReducer возвращает стейт, я беру ТИП СТЕЙТА
-export type ActionsTypes = UpdateNewMessage | AddNewMessage | AddPostActionType | UpdateNewPostTextActonType | SetUsersProfileACType
-| AuthActionsType | UserActionType | setStatusACType
+export type ActionsTypes = AddNewMessageType | SetUsersProfileACType
+| AuthActionsType | UserActionType | setStatusACType | AddPostACType
 
 let rootReducer = combineReducers( {
     profilePage: profileReducer,
