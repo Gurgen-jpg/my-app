@@ -3,6 +3,8 @@ import {Formik, Form} from "formik";
 import {ErrorMessage, useField} from "formik";
 import s from "./loginPage.module.css";
 import * as Yup from "yup";
+import {loginThunkC} from "../redux/authReducer/auth-reducer";
+import {useDispatch} from "react-redux";
 
 type TextFieldType = {
     label: string
@@ -23,9 +25,10 @@ export const TextField = ({label, ...props}: TextFieldType) => {
 
 export const LoginForm = () => {
     const validate = Yup.object({
-        login: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+        login: Yup.string().max(40, 'Must be 40 characters or less').required('Required'),
         password: Yup.string().min(6, 'Must be 6 characters or more').required('Required'),
     })
+    const dispatch = useDispatch()
     return (
         <Formik initialValues={
             {
@@ -35,7 +38,9 @@ export const LoginForm = () => {
             }
         }
                 validationSchema={validate}
-                onSubmit={() => {
+                onSubmit={(values) => {
+                    const {login, password, saveForm} = values
+                    dispatch(loginThunkC(login, password,saveForm))
                 }}>
             {
                 ({values}) =>

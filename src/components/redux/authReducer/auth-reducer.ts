@@ -39,7 +39,7 @@ export const authReducer = (state = initialState, action: ActionsTypes): Initial
     switch (action.type) {
         case 'SET-USER-DATE':
             return {
-                ...state, data: action.data, isAuth: true
+                ...state, data: action.payload.data, isAuth: action.payload.isAuth
             }
         default:
             return state
@@ -50,21 +50,40 @@ export type AuthActionsType = SetUserDateACType
 
 export type SetUserDateACType = ReturnType<typeof setUserDateAC>
 
-export const setUserDateAC = (id: number | null, email: string | null, login: string | null) => ({
+export const setUserDateAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: 'SET-USER-DATE',
-    data: {
-        id,
-        email,
-        login,
+    payload: {
+        data: {
+            id,
+            email,
+            login,
+        },
+        isAuth
     }
 } as const)
 
 
-export const setAuthThunkC = (): ThunkAction<void , AppStateType, unknown, ActionsTypes> => {
-    return async (dispatch , getState) => {
+export const setAuthThunkC = (): ThunkAction<void, AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch, getState) => {
         let data = await authAPI.getAuth()
-                if (data.resultCode === 0) {
-                    dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login))
-                }
+        if (data.resultCode === 0) {
+            dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login, true))
+        }
+    }
+}
+export const loginThunkC = (email: string, password: string, rememberMe: boolean): ThunkAction<void, AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch, getState) => {
+        let data = await authAPI.login(email, password, rememberMe)
+        if (data.data.resultCode === 0) {
+            dispatch(setAuthThunkC())
+        }
+    }
+}
+export const logoutThunkC = (): ThunkAction<void, AppStateType, unknown, ActionsTypes> => {
+    return async (dispatch, getState) => {
+        let data = await authAPI.logout()
+        if (data.data.resultCode === 0) {
+            dispatch(setUserDateAC(null, null, null, false))
+        }
     }
 }
