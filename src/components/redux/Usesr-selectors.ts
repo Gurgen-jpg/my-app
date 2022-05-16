@@ -1,8 +1,15 @@
 import {AppStateType} from "./reduxStore";
+import {createSelector} from "reselect";
 
-export const getUserPage = (state: AppStateType) => {
+
+// Можно использовать библиотеку reselector для хэширования. но селект простой и без нее будет норм
+const getUserSelector = (state: AppStateType) => {
     return state.usersPage.users
 }
+export const getUserPage = createSelector(getUserSelector,(users)=> {
+    return users
+})
+
 export const getUserPageSize = (state: AppStateType) => {
     return state.usersPage.pageSize
 }
