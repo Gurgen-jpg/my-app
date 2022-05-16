@@ -11,6 +11,13 @@ import {Users} from "./Users";
 import {Preloader} from "../Preloader/Preloader";
 import {WithAuthRedirect} from "../Hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {
+    getUserCurrentPage, getUserFilter, getUserFollowing,
+    getUserIsFetching,
+    getUserPage,
+    getUserPageSize,
+    getUserTotalUserCount
+} from "../redux/Usesr-selectors";
 
 type MapDispatchType = {
     follow: (userID: number) => void
@@ -61,13 +68,13 @@ class UsersContainer extends React.Component<UsersPagePropsType, UsersResponseTy
 //МАП СТЕЙТ и МАП ДИСПАТЧ
 let mapStateToProps = (state: AppStateType): InitialStateType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        totalUserCount: state.usersPage.totalUserCount,
-        isFetching: state.usersPage.isFetching,
-        following: state.usersPage.following,
-        filter: state.usersPage.filter
+        users: getUserPage(state),
+        pageSize: getUserPageSize(state),
+        currentPage: getUserCurrentPage(state),
+        totalUserCount: getUserTotalUserCount(state),
+        isFetching: getUserIsFetching(state),
+        following: getUserFollowing(state),
+        filter: getUserFilter(state),
     }
 }
 export default compose<React.ComponentType>(
