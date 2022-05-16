@@ -9,10 +9,6 @@ const tempPhoto = "https://cdn.dribbble.com/users/10882/screenshots/15172621/med
     "cd2246d5d0f54f9a4316bd4d276764b2.png?compress=1&resize=400x300"
 const Header = () => {
     let dispatch = useDispatch();
-
-    useEffect(() => {
-       dispatch(setAuthThunkC())
-    }, [])
     let userData = useSelector<AppStateType, InitialStateType>(state => state.auth)
 
     return (<header className={s.header}>

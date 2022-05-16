@@ -1,6 +1,7 @@
 import {ActionsTypes, AppStateType} from "../reduxStore";
 import {authAPI} from "../../Dal/api";
 import {ThunkAction} from "redux-thunk";
+import {Dispatch} from "redux";
 
 // ТИПЫ
 export type ResponseAuthType = {
@@ -54,7 +55,6 @@ export type SetUserDateACType = ReturnType<typeof setUserDateAC>
 
 export const setUserDateAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean, errorMessages: string[] ) => {
     return {
-
         type: 'SET-USER-DATE',
         payload: {
             data: {
@@ -68,8 +68,8 @@ export const setUserDateAC = (id: number | null, email: string | null, login: st
     } as const
 }
 
-export const setAuthThunkC = (): ThunkAction<void, AppStateType, unknown, ActionsTypes> => {
-    return async (dispatch, getState) => {
+export const setAuthThunkC = (): any/*ThunkAction<void, AppStateType, unknown, ActionsTypes >*/ => {
+    return async (dispatch: Dispatch) => {
         let data = await authAPI.getAuth()
         if (data.resultCode === 0) {
             dispatch(setUserDateAC(data.data.id, data.data.email, data.data.login, true, []))
@@ -87,6 +87,7 @@ export const loginThunkC = (email: string, password: string, rememberMe: boolean
     }
 }
 export const logoutThunkC = (): ThunkAction<void, AppStateType, unknown, ActionsTypes> => {
+
     return async (dispatch, getState) => {
         let data = await authAPI.logout()
         if (data.data.resultCode === 0) {

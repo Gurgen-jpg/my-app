@@ -5,7 +5,8 @@ import s from "./loginPage.module.css";
 import * as Yup from "yup";
 import {InitialStateType, loginThunkC} from "../redux/authReducer/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../redux/reduxStore";
+import {AppStateType, useAppSelector} from "../redux/reduxStore";
+import {useNavigate} from "react-router-dom";
 
 
 type TextFieldType = {
@@ -61,6 +62,11 @@ export const LoginForm = () => {
 };
 
 export const LoginPage = () => {
+    const navigate = useNavigate();
+    const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+    if (isAuth) {
+        navigate('/profile')
+    }
     return (
         <div className={s.wrapper}>
             <h2>Login</h2>
