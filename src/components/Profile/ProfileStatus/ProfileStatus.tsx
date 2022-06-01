@@ -10,7 +10,6 @@ export const ProfileStatus = (props: PropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
 
 
-    console.log(localStatus)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setLocalStatus(e.currentTarget.value)
 
@@ -22,7 +21,6 @@ export const ProfileStatus = (props: PropsType) => {
         props.changeStatus(localStatus)
         setEditMode(false)
     }
-    console.log()
     return (
         <div>
             {!editMode && <span onClick={onChangeEditModeHandler}>{props.status || `Click to add Status`}</span>}

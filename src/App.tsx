@@ -15,6 +15,7 @@ import {useDispatch} from "react-redux";
 import {authorizeThunkC} from "./components/redux/app-reducer";
 import {useAppSelector} from "./components/redux/reduxStore";
 import {Preloader} from "./components/Preloader/Preloader";
+import { Movies } from './components/Movies/Movies';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const App = () => {
                     <Route element={<DialogsContainer/>} path='/dialogs/*'/>
                     <Route element={<UsersContainer/>} path='/users/'/>
                     <Route element={<Music/>} path='/music/*'/>
+                    <Route element={<Movies/>} path='/movies/'/>
                     <Route element={<News/>} path='/news/*'/>
                     <Route element={<Settings/>} path='/settings/*'/>
                     <Route element={<LoginPage/>} path='/loginPage'/>
